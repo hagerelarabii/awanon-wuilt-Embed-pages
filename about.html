@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>من نحن - Awan ON | شريكك في النجاح الرقمي</title>
-    <meta name="description" content="اعرف قصة Awan ON، إيه هي مهمتنا، وليه إحنا أفضل شريك لشركتك في مصر للتحول الرقمي.">
+    <title>من نحن - Awan ON</title>
+    <meta name="description" content="اعرف أكتر عن قصة Awan ON، خبراتنا في السوق المصري والخليجي، وإزاي بنساعد الشركات على النمو الرقمي.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,188 +12,483 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { 
+        body {
             font-family: 'Cairo', sans-serif; 
             scroll-behavior: smooth; 
-            /* (إضافة) Padding للـ body علشان الفوتر الثابت */
-            padding-bottom: 140px; 
-        }
-        @media (min-width: 640px) { /* sm breakpoint */
-            body {
-                padding-bottom: 100px; 
-            }
+            /* (تعديل v2) إضافة مساحة سفلية علشان الفوتر الجديد */
+            padding-bottom: 160px; /* للديسكتوب */
         }
         
-        /* (إضافة) ستايل الهيدر المتدرج */
+        @media (max-width: 768px) {
+            body {
+                /* (تعديل v2) مساحة أكبر للموبايل (لأن الفوتر أطول) */
+                padding-bottom: 220px; 
+            }
+        }
+
         .animated-gradient {
-            background: linear-gradient(135deg, #0056b3 0%, #003d82 50%, #0056b3 100%);
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 50%, #7c3aed 100%);
             background-size: 200% 200%;
             animation: gradient-shift 15s ease infinite;
         }
-        
         @keyframes gradient-shift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
+        }
+
+        /* (إضافة v2) كلاسات للأنيميشن */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- (إضافة v2) ستايل البوب-آب (Popup/Modal) --- */
+        .popup-overlay {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10000; /* أعلى z-index */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-overlay.popup-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px; /* عرض أكبر للبوب آب */
+            height: 90vh; /* ارتفاع 90% من الشاشة */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform: scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .popup-overlay.popup-visible .popup-content {
+            transform: scale(1);
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: #f9fafb;
+        }
+        .popup-header h3 {
+            font-size: 1.125rem; /* 18px */
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .popup-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #9ca3af;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+        .popup-close:hover {
+            color: #374151;
+        }
+        .popup-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            position: relative;
+            -webkit-overflow-scrolling: touch; /* لتحسين السكرول على الموبايل */
+        }
+        .popup-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .popup-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #7c3aed; /* بنفسجي */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* (إضافة v5) ستايل كروت الخدمات */
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
     </style>
 </head>
 <body class="bg-gray-50">
     
-    <!-- Hero Section -->
+    <!-- (v3) Hero Section -->
     <header class="animated-gradient text-white py-20 px-6">
         <div class="container mx-auto max-w-4xl text-center">
             <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
-                إحنا مين؟
+                إحنا مش مجرد وكالة تسويق.
             </h1>
-            <p class="text-xl md:text-2xl mb-4 font-light leading-relaxed max-w-3xl mx-auto">
-                إحنا مش مجرد شركة تسويق. إحنا شريكك اللي هيساعدك تنجح أونلاين.
-            </p>
-            <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
-                بنفهم تحديات السوق المصري وصممنا خدماتنا مخصوص علشان تناسب الشركات الناشئة والصغيرة بأسعار واضحة وخدمة سريعة.
+            <p class="text-xl md:text-2xl mb-8 font-light leading-relaxed">
+                إحنا شريكك اللي هيساعدك تنجح "أونلاين" بأمان، وبدون تعقيدات، وبأفضل سعر.
             </p>
         </div>
     </header>
 
-    <main>
-        <!-- Our Mission Section -->
-        <section class="py-20 px-6 bg-white">
-            <div class="container mx-auto max-w-6xl">
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <!-- Image -->
-                    <div>
-                        <img src="https://placehold.co/600x400/0056b3/white?text=Awan+ON+Mission&font=cairo" alt="مهمتنا في أوان أون" class="rounded-lg shadow-xl w-full">
-                    </div>
-                    
-                    <!-- Text -->
-                    <div>
-                        <span class="text-sm font-bold text-blue-600 uppercase">مهمتنا</span>
-                        <h2 class="text-3xl md:text-4xl font-black text-gray-800 my-4">
-                            نجاحك الرقمي هو هدفنا
-                        </h2>
-                        <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                            هدفنا بسيط: نكسر حاجز التكلفة والتعقيد اللي بيمنع الشركات المصرية من النمو. بنقدم حلول رقمية متكاملة بتخليك تركز في اللي إنت شاطر فيه: البيزنس بتاعك.
-                        </p>
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-3">
-                                <span class="text-green-500 font-bold text-2xl mt-1">✓</span>
-                                <div>
-                                    <h3 class="font-bold text-lg text-gray-800">الشفافية</h3>
-                                    <p class="text-gray-600">أسعار واضحة، باقات محددة، ومفيش أي مصاريف خفية.</p>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="text-green-500 font-bold text-2xl mt-1">✓</span>
-                                <div>
-                                    <h3 class="font-bold text-lg text-gray-800">السرعة</h3>
-                                    <p class="text-gray-600">بنفهم إن الوقت فلوس. معظم خدماتنا بتتسلم في 48-72 ساعة.</p>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="text-green-500 font-bold text-2xl mt-1">✓</span>
-                                <div>
-                                    <h3 class="font-bold text-lg text-gray-800">الجودة</h3>
-                                    <p class="text-gray-600">تصميمات احترافية وخدمة دعم فني حقيقية تقدر تعتمد عليها.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+    <!-- (v3) Our Story Section -->
+    <section class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-6 text-gray-800">
+                قصتنا
+            </h2>
+            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                "Awan ON" بدأت بفكرة بسيطة: لاحظنا إن أصحاب الشركات الصغيرة والمتوسطة في مصر بيواجهوا مشكلة كبيرة. يا إما بيتعاملوا مع فريلانسرز شغلهم مش مضمون، يا إما بيصطدموا بأسعار خيالية من الوكالات الكبيرة.
+                <br><br>
+                قررنا نكون الحل. عملنا نظام بيقدم خدمات تسويق رقمي "كاملة" (مواقع، إعلانات، تصميمات) بجودة احترافية، لكن بنظام "باقات" بأسعار واضحة وشفافة. هدفنا نكسر حاجز الخوف من "الأونلاين" ونخلي النجاح الرقمي في متناول كل شركة جادة.
+            </p>
+        </div>
+    </section>
+
+    <!-- (v3) What We Believe In Section -->
+    <section class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
+                بنؤمن بإيه؟
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="text-5xl mb-4">💎</div>
+                    <h3 class="text-xl font-bold mb-2">الوضوح والشفافية</h3>
+                    <p class="text-gray-600">مفيش "أسعار خفية" أو "كلام معقد". باقاتنا واضحة، وأسعارنا على الموقع، ونتايجنا متقاسة بالأرقام.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-2">السرعة والجودة</h3>
+                    <p class="text-gray-600">وقتك أهم حاجة. بنسلمك شغلك (موقع، لوجو، فيديو) في 48-72 ساعة بجودة احترافية من غير تأخير.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="text-5xl mb-4">🤝</div>
+                    <h3 class="text-xl font-bold mb-2">الشراكة الحقيقية</h3>
+                    <p class="text-gray-600">إحنا مش "موردين"، إحنا "فريقك". نجاحك من نجاحنا، وهدفنا نفضل معاك خطوة بخطوة وإنت بتكبر.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- (تعديل) قسم الخبرات بدلاً من الفريق -->
-        <section class="py-20 px-6 bg-gray-50">
-            <div class="container mx-auto max-w-6xl text-center">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-4 text-gray-800">
-                    الخبرة اللي بتدعمك
-                </h2>
-                <p class="text-center text-gray-600 text-xl mb-12 max-w-2xl mx-auto">
-                    فريقنا مش مجرد مجموعة موظفين، دول خبراء بخبرات دولية ومحلية متراكمة من الشغل في أسواق مختلفة ومع شركات كبرى.
-                </p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- الخبرة 1 -->
-                    <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-                        <div class="text-5xl mb-4">🌍</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">خبرة بأسواق متعددة</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            اشتغلنا على مشاريع في أسواق مختلفة، من السوق المصري للأسواق الخليجية والأوروبية. ده بيدينا فهم عميق لإزاي نوصل لعميلك صح.
-                        </p>
-                    </div>
-                    
-                    <!-- الخبرة 2 -->
-                    <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-                        <div class="text-5xl mb-4">🏢</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">التعامل مع الكبار</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            خبرات فريقنا مجمعة من الشغل مع شركات كبرى (Enterprise)، وبنقدم نفس مستوى الجودة والاحترافية ده للشركات الناشئة والصغيرة.
-                        </p>
-                    </div>
-                    
-                    <!-- الخبرة 3 -->
-                    <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-                        <div class="text-5xl mb-4">📈</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">خبرة في مجالات مختلفة</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            فريقنا نفذ مشاريع في مجالات متنوعة زي العقارات، التجارة الإلكترونية، التكنولوجيا، والمطاعم. عندنا الحل لأي تحدي بيقابلك.
-                        </p>
-                    </div>
+    <!-- (v4) Results First Section -->
+    <section class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-6 text-gray-800">
+                النتائج أولاً: بنركز على نمو البيزنس
+            </h2>
+            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-12">
+                الشكل الحلو مهم، بس الأهم إنه يجيب نتايج. خبرتنا مش بس في التصميم، خبرتنا في **زيادة المبيعات**. إحنا بنبني صفحات هبوط (Landing Pages) علشان "تبيع"، وبنعمل حملات إعلانية علشان "تجيب عملاء"، وبندير صفحات سوشيال ميديا علشان "تبني ولاء". كل جنيه بتدفعه معانا، هدفنا يرجعلك أضعاف.
+            </p>
+        </div>
+    </section>
+
+    <!-- (v4) Markets & Fields Section -->
+    <section class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-800">مجالات اشتغلنا فيها:</h3>
+                <p class="text-gray-700 leading-relaxed mb-6">فريقنا عنده خبرة في التعامل مع مجالات مختلفة، وده بيخلينا فاهمين السوق بتاعك أسرع:</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">عقارات</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">مطاعم وكافيهات</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">تجارة إلكترونية</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">خدمات طبية</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">شركات ناشئة (Startups)</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-medium">خدمات تعليمية</span>
                 </div>
             </div>
-        </section>
-        <!-- نهاية قسم الخبرات -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-800">أسواق مختلفة:</h3>
+                <p class="text-gray-700 leading-relaxed mb-6">شغلنا مش بس في مصر. إحنا ساعدنا شركات في أسواق مختلفة وده بيدينا رؤية أوسع:</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">السوق المصري</span>
+                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">السوق الخليجي (السعودية والإمارات)</span>
+                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">أسواق أوروبية</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- In-Page CTA -->
-        <section class="py-20 px-6 bg-white text-center">
-            <div class="container mx-auto max-w-3xl">
-                <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">
-                    جاهز تنقل البيزنس بتاعك لمكان تاني؟
-                </h2>
-                <p class="text-gray-600 text-xl mb-8">
-                    شوف باقات الخدمات الكاملة بتاعتنا واختار اللي يناسبك.
-                </p>
-                <!-- لينك لصفحة الباقة الشاملة -->
-                <a href="/ar/page/test" class="bg-green-500 hover:bg-green-600 text-white px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition">
-                    شوف كل باقات الخدمات
+    <!-- (v3) How We Work Section -->
+    <section class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
+                طريقتنا في الشغل (ببساطة)
+            </h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="bg-gray-200 text-purple-600 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-bold mb-2">بنسمعك</h3>
+                    <p class="text-gray-700 text-sm">بنفهم أهدافك ومشاكلك وميزانيتك.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-200 text-purple-600 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-bold mb-2">بنحط خطة</h3>
+                    <p class="text-gray-700 text-sm">بنقترح عليك أفضل باقة أو خدمة توصلك لهدفك.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-200 text-purple-600 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-bold mb-2">بننفذ بسرعة</h3>
+                    <p class="text-gray-700 text-sm">بنبدأ شغل فوراً وبنسلمك في المواعيد المحددة.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-200 text-purple-600 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-bold mb-2">بنقيس ونطور</h3>
+                    <p class="text-gray-700 text-sm">بنبعتلك تقارير وبنطور شغلنا حسب النتايج.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- (إضافة v5) Discover Services Section -->
+    <section id="services" class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
+                اكتشف خدماتنا
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- (v5) لينك الويب سايت -->
+                <a href="https://awanon.wuiltstore.com/ar/page/Websites-creation" class="service-card bg-white rounded-xl shadow-lg p-6 block">
+                    <div class="text-4xl mb-3">🌐</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">ويب سايت باشتراك شهري</h3>
+                    <span class="text-purple-600 font-bold">اعرف التفاصيل ←</span>
+                </a>
+
+                <!-- (v5) لينك الإعلانات -->
+                <a href="https://awanon.wuiltstore.com/ar/page/paid-ads" class="service-card bg-white rounded-xl shadow-lg p-6 block">
+                    <div class="text-4xl mb-3">📢</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">إعلان ممول شامل</h3>
+                    <span class="text-purple-600 font-bold">اعرف التفاصيل ←</span>
+                </a>
+
+                <!-- (v5) لينك الموشن -->
+                <a href="https://awanon.wuiltstore.com/ar/page/Marketing-Videos" class="service-card bg-white rounded-xl shadow-lg p-6 block">
+                    <div class="text-4xl mb-3">🎬</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">فيديو موشن جرافيك</h3>
+                    <span class="text-purple-600 font-bold">اعرف التفاصيل ←</span>
+                </a>
+
+                <!-- (v5) لينك اللوجو -->
+                <a href="https://awanon.wuiltstore.com/ar/page/logos-visual-branding" class="service-card bg-white rounded-xl shadow-lg p-6 block">
+                    <div class="text-4xl mb-3">🎨</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">تصميم لوجو احترافي</h3>
+                    <span class="text-purple-600 font-bold">اعرف التفاصيل ←</span>
+                </a>
+
+                <!-- (v5) لينك السوشيال -->
+                <a href="https://awanon.wuiltstore.com/ar/page/social-media-manag" class="service-card bg-white rounded-xl shadow-lg p-6 block">
+                    <div class="text-4xl mb-3">📱</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">إدارة سوشيال ميديا</h3>
+                    <span class="text-purple-600 font-bold">اعرف التفاصيل ←</span>
+                </a>
+
+                <!-- (v5) لينك الباقة الشاملة -->
+                <a href="https://awanon.wuiltstore.com/ar/page/Complete-Package" class="service-card bg-white rounded-xl shadow-lg p-6 block">
+                    <div class="text-4xl mb-3">🚀</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">الباقة الكاملة</h3>
+                    <span class="text-purple-600 font-bold">اعرف التفاصيل ←</span>
                 </a>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- 
-      (إضافة) 
-      الـ Sticky Footer الجديد 
-    -->
-    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 z-50 w-full bg-white/90 p-4 backdrop-blur-sm border-t border-gray-200 shadow-t-xl">
-        <div class="container mx-auto max-w-lg">
-            <!-- Mobile-First (stacked) by default, then side-by-side on sm screens -->
-            <div class="flex flex-col sm:flex-row-reverse gap-3">
-                
-                <!-- الزرار الأساسي (لينك لصفحة الباقة الشاملة) -->
-                <a href="/ar/page/test" class="w-full text-center px-6 py-3 bg-green-500 border-2 border-green-500 text-white rounded-lg font-bold shadow-lg transition hover:bg-green-600">
-                    🚀 شوف الباقات الشاملة
-                </a>
-                
-                <!-- الزرار الثانوي (تواصل) -->
-                <a href="https://wa.me/201000000000" target="_blank" class="w-full text-center px-6 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg font-bold shadow-md transition hover:bg-gray-100">
-                    💬 تواصل واتساب
-                </a>
-                
+    <!-- (v4) FAQ Section -->
+    <section class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
+                أسئلة شائعة ❓
+            </h2>
+            <div class="space-y-4">
+                <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm">
+                    <summary class="font-bold text-lg text-gray-800">إيه اللي بيميزكم عن أي وكالة تانية؟</summary>
+                    <p class="mt-3 text-gray-700 leading-relaxed">
+                        السرعة والشفافية. إحنا مش بنلف وندور. خدماتنا بـ "منتجات" واضحة، ليها سعر ثابت، وبتتسلم في وقت قياسي. مش هتستنى عروض أسعار ولا هتتفاجئ بفواتير زيادة.
+                    </p>
+                </details>
+                <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm">
+                    <summary class="font-bold text-lg text-gray-800">هل بتقدموا خدمات مخصصة (Custom)؟</summary>
+                    <p class="mt-3 text-gray-700 leading-relaxed">
+                        أكيد. الباقات دي معموله علشان 90% من احتياجات الشركات الصغيرة والمتوسطة. لكن لو إنت شركة كبيرة أو محتاج خطة مخصصة تماماً (Custom Plan)، "اتواصل معانا" وفريقنا هيبني معاك خطة تناسب ميزانيتك وأهدافك.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- (إضافة v2) البوب-آب (Popup/Modal) -->
+    <div id="popup-modal" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 id="popup-title" class="text-gray-900">بنحمّل الصفحة...</h3>
+                <button id="popup-close" class="popup-close">&times;</button>
+            </div>
+            <div class="popup-body">
+                <!-- مؤشر التحميل -->
+                <div id="popup-loader" class="popup-loader"></div>
+                <!-- الـ iframe لتحميل المحتوى -->
+                <iframe id="popup-iframe" class="popup-iframe" src="about:blank" title="Popup Content"></iframe>
             </div>
         </div>
     </div>
-    <!-- نهاية الـ Sticky Footer -->
 
-    <!-- (إضافة) سكريبت للـ Smooth Scroll -->
+
+    <!-- (تعديل v2) الفوتر الثابت (Sticky Footer) - لوحة التحكم -->
+    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 z-50 w-full bg-white/95 p-4 backdrop-blur-sm border-t border-gray-200 shadow-t-2xl">
+        <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- === قسم الدفع (الأساسي) === -->
+            <div class="flex-1 w-full md:w-auto">
+                <!-- (تعديل v3) الزرار ده هيفتح بوب آب لصفحة الباقة الشاملة -->
+                <button 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/tswiq-package"
+                    data-popup-title="شراء الباقة الشاملة"
+                    class="open-popup-button w-full text-center px-6 py-3 bg-green-500 border-2 border-green-500 text-white rounded-lg font-bold shadow-lg transition hover:bg-green-600 text-lg">
+                    🚀 اطلب خدمة
+                </button>
+                <!-- طرق الدفع -->
+                <div class="text-center text-xs text-gray-500 mt-2">
+                    متاح: فيزا - ماستركارد - ميزة - فودافون كاش - انستا باي
+                </div>
+            </div>
+
+            <!-- === قسم التواصل (الثانوي) === -->
+            <div class="flex-1 w-full md:w-auto">
+                <button 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us" 
+                    data-popup-title="اتصل بنا"
+                    class="open-popup-button w-full text-center px-6 py-3 bg-gray-100 border-2 border-gray-300 text-gray-800 rounded-lg font-bold transition hover:bg-gray-200 text-lg">
+                    💬 اتواصل معانا
+                </button>
+                <!-- بيانات التواصل -->
+                <div class="text-center text-xs text-gray-500 mt-2">
+                    <a href="https://wa.me/201101234798" target="_blank" class="hover:text-black">واتساب: 01101234798</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // (إضافة v2) Fade in animation on scroll
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+            // Smooth scroll for anchor links (from v1)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
             });
+
+            // --- (إضافة v2) كود البوب-آب (Popup) ---
+            const popupModal = document.getElementById("popup-modal");
+            const popupTitle = document.getElementById("popup-title");
+            const popupIframe = document.getElementById("popup-iframe");
+            const popupLoader = document.getElementById("popup-loader");
+            const popupCloseBtn = document.getElementById("popup-close");
+            const openPopupButtons = document.querySelectorAll(".open-popup-button");
+
+            function openPopup(url, title) {
+                if (!popupModal) return;
+                
+                // التأكد من أن العنوان نص
+                popupTitle.textContent = title || "تحميل...";
+                popupIframe.src = "about:blank"; // إفراغ الـ iframe أولاً
+                popupLoader.style.display = "block"; // إظهار مؤشر التحميل
+                popupModal.classList.add("popup-visible");
+                
+                // تأخير بسيط قبل تحميل الـ URL لتجنب مشاكل الـ cache
+                setTimeout(() => {
+                    popupIframe.src = url; 
+                }, 50);
+
+                // إخفاء مؤشر التحميل عند اكتمال التحميل
+                popupIframe.onload = function() {
+                    popupLoader.style.display = "none"; 
+                };
+            }
+
+            function closePopup() {
+                if (!popupModal) return;
+                popupModal.classList.remove("popup-visible");
+                popupIframe.src = "about:blank"; // إفراغ الـ iframe عند الإغلاق
+                popupTitle.textContent = "بنحمّل الصفحة...";
+            }
+
+            openPopupButtons.forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const url = this.dataset.popupUrl;
+                    const title = this.dataset.popupTitle;
+                    if (url) {
+                        openPopup(url, title);
+                    } else {
+                        console.error("Popup URL not set for this button.");
+                    }
+                });
+            });
+
+            if (popupCloseBtn) {
+                popupCloseBtn.addEventListener("click", closePopup);
+            }
+            if (popupModal) {
+                // إغلاق البوب آب عند الضغط على الخلفية
+                popupModal.addEventListener("click", function(e) {
+                    if (e.target === popupModal) {
+                        closePopup();
+                    }
+                });
+            }
+            // --- نهاية كود البوب-آب ---
+
         });
     </script>
 </body>
 </html>
+
 
