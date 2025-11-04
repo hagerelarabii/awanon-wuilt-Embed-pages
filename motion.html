@@ -12,7 +12,17 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            scroll-behavior: smooth; 
+            /* (تعديل) إضافة Padding للـ body */
+            padding-bottom: 140px; 
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            body {
+                padding-bottom: 100px; 
+            }
+        }
         .animated-gradient {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #f59e0b 100%);
             background-size: 200% 200%;
@@ -25,6 +35,12 @@
         .pricing-card { transition: all 0.3s ease; }
         .pricing-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
         .most-popular { border: 3px solid #fbbf24; transform: scale(1.05); }
+        
+        @media (max-width: 768px) {
+            .most-popular {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -52,12 +68,13 @@
                 <a href="#pricing" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
                     💳 شوف الأسعار واطلب دلوقتي
                 </a>
-                <a href="#contact" class="bg-white hover:bg-gray-100 text-orange-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
+                <!-- (تعديل اللينك) -->
+                <a href="#pricing" class="bg-white hover:bg-gray-100 text-orange-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
                     📱 سجل وادفع بعدين
                 </a>
             </div>
             <div class="flex justify-center">
-                <a href="https://wa.me/201000000000" class="bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition w-full md:w-auto">
+                <a href="https://wa.me/201000000000" target="_blank" class="bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition w-full md:w-auto">
                     🤔 محتاج مساعدة أو استشارة؟
                 </a>
             </div>
@@ -115,7 +132,8 @@
                         </li>
                     </ul>
                     
-                    <a href="#buy" class="block bg-orange-600 hover:bg-orange-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="block bg-orange-600 hover:bg-orange-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
                         اطلب دلوقتي 💳
                     </a>
                 </div>
@@ -168,7 +186,8 @@
                         </li>
                     </ul>
                     
-                    <a href="#buy" class="block bg-green-500 hover:bg-green-600 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full shadow-lg">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="block bg-green-500 hover:bg-green-600 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full shadow-lg">
                         اطلب دلوقتي 💳
                     </a>
                 </div>
@@ -221,7 +240,8 @@
                         </li>
                     </ul>
                     
-                    <a href="#buy" class="block bg-orange-600 hover:bg-orange-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="block bg-orange-600 hover:bg-orange-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
                         اطلب دلوقتي 💳
                     </a>
                 </div>
@@ -230,27 +250,46 @@
         </div>
     </section>
 
-    <section id="contact" class="animated-gradient text-white py-16 px-6">
-        <div class="container mx-auto max-w-4xl text-center">
-            <h2 class="text-3xl md:text-4xl font-black mb-6">جاهز تبدأ؟ 🚀</h2>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#pricing" class="bg-green-500 hover:bg-green-600 px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition">
-                    💳 اطلب فيديو دلوقتي
+    <!-- 
+      (تعديل) 
+      تم حذف الـ Final CTA والـ Footer القدام 
+    -->
+
+    <!-- 
+      (إضافة) 
+      الـ Sticky Footer الجديد 
+    -->
+    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 z-50 w-full bg-white/90 p-4 backdrop-blur-sm border-t border-gray-200 shadow-t-xl">
+        <div class="container mx-auto max-w-lg">
+            <!-- Mobile-First (stacked) by default, then side-by-side on sm screens -->
+            <div class="flex flex-col sm:flex-row-reverse gap-3">
+                
+                <!-- الزرار الأساسي (اطلب فيديو) بيروح لـ #pricing -->
+                <a href="#pricing" class="w-full text-center px-6 py-3 bg-green-500 border-2 border-green-500 text-white rounded-lg font-bold shadow-lg transition hover:bg-green-600">
+                    🚀 اطلب فيديو
                 </a>
-                <a href="https://wa.me/201000000000" class="bg-white hover:bg-gray-100 text-orange-700 px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition">
-                    💬 تواصل على واتساب
+                
+                <!-- الزرار الثانوي (تواصل) -->
+                <a href="https://wa.me/201000000000" target="_blank" class="w-full text-center px-6 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg font-bold shadow-md transition hover:bg-gray-100">
+                    💬 تواصل واتساب
                 </a>
+                
             </div>
         </div>
-    </section>
+    </div>
+    <!-- نهاية الـ Sticky Footer -->
 
-    <footer class="bg-gray-900 text-white py-12 px-6">
-        <div class="container mx-auto max-w-6xl text-center">
-            <h3 class="text-xl font-bold mb-2">Awan ON</h3>
-            <p class="text-gray-400 mb-4">شريكك في النجاح الرقمي</p>
-            <a href="index.html" class="text-gray-400 hover:text-white">← العودة للصفحة الرئيسية</a>
-            <p class="text-gray-500 mt-6">© 2025 Awan ON. جميع الحقوق محفوظة</p>
-        </div>
-    </footer>
+
+    <!-- (إضافة) سكريبت للـ Smooth Scroll -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
 </body>
 </html>
+
