@@ -15,6 +15,17 @@
         body {
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
+            /* (تعديل)
+              إضافة Padding أسفل الصفحة علشان المحتوى ميختفيش ورا الـ Sticky Footer
+              المقاس الأول (140px) للموبايل (الزرارين فوق بعض)
+              المقاس الثاني (100px) للشاشات الأكبر (الزرارين جنب بعض)
+            */
+            padding-bottom: 140px; 
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            body {
+                padding-bottom: 100px; 
+            }
         }
         
         .animated-gradient {
@@ -57,19 +68,7 @@
             transform: scale(1.08) translateY(-10px);
         }
         
-        .sticky-cta {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .sticky-cta.visible {
-            opacity: 1;
-        }
+        /* (تعديل) تم حذف ستايل الـ .sticky-cta القديم */
         
         .feature-check {
             color: #10b981;
@@ -126,13 +125,14 @@
                     <a href="#pricing" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
                         💳 شوف الباقات واشتري دلوقتي
                     </a>
-                    <a href="#contact" class="bg-white hover:bg-gray-100 text-blue-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
+                    <!-- (تعديل اللينك) تم تغيير #contact إلى #pricing -->
+                    <a href="#pricing" class="bg-white hover:bg-gray-100 text-blue-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
                         📱 سجل وادفع بعدين (محافظ/InstaPay)
                     </a>
                 </div>
                 
                 <div class="flex justify-center">
-                    <a href="https://wa.me/201000000000" class="bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition w-full md:w-auto">
+                    <a href="https://wa.me/201000000000" target="_blank" class="bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition w-full md:w-auto">
                         🤔 محتاج مساعدة؟ اتكلم معانا
                     </a>
                 </div>
@@ -307,7 +307,8 @@
                         </li>
                     </ul>
                     
-                    <a href="#buy" class="block bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="block bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
                         اشتري دلوقتي 💳
                     </a>
                 </div>
@@ -361,7 +362,8 @@
                         </li>
                     </ul>
                     
-                    <a href="#buy" class="block bg-green-500 hover:bg-green-600 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full shadow-lg">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="block bg-green-500 hover:bg-green-600 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full shadow-lg">
                         اشتري دلوقتي 💳
                     </a>
                 </div>
@@ -419,7 +421,8 @@
                         </li>
                     </ul>
                     
-                    <a href="#buy" class="block bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="block bg-blue-600 hover:bg-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
                         اشتري دلوقتي 💳
                     </a>
                 </div>
@@ -430,10 +433,12 @@
             <div class="mt-12 text-center max-w-2xl mx-auto">
                 <p class="text-gray-600 mb-4">مش عايز تدفع دلوقتي؟ مفيش مشكلة!</p>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <a href="#contact" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-bold transition">
+                    <!-- (تعديل اللينك) -->
+                    <a href="#pricing" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-bold transition">
                         📱 سجل وادفع بعدين (محافظ/InstaPay)
                     </a>
-                    <a href="#help" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg font-bold transition">
+                    <!-- (تعديل اللينك) -->
+                    <a href="https://wa.me/201000000000" target="_blank" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg font-bold transition">
                         🤔 اطلب مساعدة
                     </a>
                 </div>
@@ -543,75 +548,35 @@
         </div>
     </section>
 
-    <!-- Final CTA -->
-    <section id="contact" class="animated-gradient text-white py-16 px-6">
-        <div class="container mx-auto max-w-4xl text-center">
-            <h2 class="text-3xl md:text-4xl font-black mb-6">
-                جاهز تبدأ موقعك النهاردة؟ 🚀
-            </h2>
-            <p class="text-xl mb-10 leading-relaxed">
-                اختار الباقة المناسبة ليك وابدأ رحلتك الرقمية دلوقتي
-            </p>
-            
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#pricing" class="bg-green-500 hover:bg-green-600 px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition">
-                    💳 اشتري دلوقتي
+    <!-- 
+      (تعديل) 
+      تم حذف الـ Final CTA والـ Footer القدام 
+    -->
+
+    <!-- 
+      (إضافة) 
+      الـ Sticky Footer الجديد 
+    -->
+    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 z-50 w-full bg-white/90 p-4 backdrop-blur-sm border-t border-gray-200 shadow-t-xl">
+        <div class="container mx-auto max-w-lg">
+            <!-- Mobile-First (stacked) by default, then side-by-side on sm screens -->
+            <div class="flex flex-col sm:flex-row-reverse gap-3">
+                
+                <!-- (تعديل الفوتر) الزرار الأساسي (اطلب باقة) بيروح لـ #pricing -->
+                <a href="#pricing" class="w-full text-center px-6 py-3 bg-green-500 border-2 border-green-500 text-white rounded-lg font-bold shadow-lg transition hover:bg-green-600">
+                    🚀 اطلب باقة
                 </a>
-                <a href="https://wa.me/201000000000" class="bg-white hover:bg-gray-100 text-blue-700 px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition">
-                    💬 تواصل على واتساب
+                
+                <!-- الزرار الثانوي (تواصل) -->
+                <a href="https://wa.me/201000000000" target="_blank" class="w-full text-center px-6 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg font-bold shadow-md transition hover:bg-gray-100">
+                    💬 تواصل واتساب
                 </a>
-            </div>
-            
-            <div class="mt-8">
-                <a href="tel:+201000000000" class="text-white/90 hover:text-white text-lg underline">
-                    أو اتصل بينا: 0100 000 0000
-                </a>
+                
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 px-6">
-        <div class="container mx-auto max-w-6xl">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Awan ON</h3>
-                    <p class="text-gray-400">شريكك في النجاح الرقمي</p>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">خدماتنا</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="website.html" class="hover:text-white">مواقع إلكترونية</a></li>
-                        <li><a href="ads.html" class="hover:text-white">إعلانات ممولة</a></li>
-                        <li><a href="motion.html" class="hover:text-white">موشن جرافيك</a></li>
-                        <li><a href="logo.html" class="hover:text-white">تصميم لوجو</a></li>
-                        <li><a href="social.html" class="hover:text-white">إدارة سوشيال ميديا</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">تواصل معانا</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>📞 0100 000 0000</li>
-                        <li>📧 info@awanon.com</li>
-                        <li>🌐 <a href="index.html" class="hover:text-white">الصفحة الرئيسية</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
-                <p>© 2025 Awan ON. جميع الحقوق محفوظة</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Sticky CTA (appears on scroll) -->
-    <div id="sticky-cta" class="sticky-cta hidden md:block">
-        <a href="#pricing" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-bold shadow-2xl block">
-            💳 شوف الباقات واشتري دلوقتي
-        </a>
     </div>
+    <!-- نهاية الـ Sticky Footer -->
+
 
     <script>
         // Fade in animation on scroll
@@ -625,22 +590,8 @@
 
         document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
-        // Sticky CTA visibility
-        const stickyCTA = document.getElementById('sticky-cta');
-        let lastScrollTop = 0;
-
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > 800) {
-                stickyCTA.classList.add('visible');
-            } else {
-                stickyCTA.classList.remove('visible');
-            }
-            
-            lastScrollTop = scrollTop;
-        });
-
+        // (تعديل) تم حذف السكريبت الخاص بالـ stickyCTA القديم
+        
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
