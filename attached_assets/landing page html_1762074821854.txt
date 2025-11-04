@@ -1,0 +1,1597 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--  يجب تغيير العنوان ليعكس كل خدمة  -->
+    <title>موقع باشتراك شهري - باقات Awan ON</title>
+    <meta name="description" content="امتلك موقع إلكتروني احترافي بأقل اشتراك شهري. واجهة تليق بشركتك وتجذب عملاء جدد بدون ما تدفع مبلغ كبير مرة واحدة.">
+
+
+    <!-- استخدام خط Cairo كما أوصى البحث -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+
+    <!-- سكريبت Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* تخصيص Tailwind لخط Cairo */
+        body {
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+            /* إضافة: إخفاء الماوس العادي */
+            cursor: none;
+        }
+        /* تعديل: إخفاء الماوس على العناصر التفاعلية أيضاً */
+        a, button, summary, .cursor-pointer {
+            cursor: none;
+        }
+
+
+        /* تعديل: تطبيق "راحة العين" على كل البرجرافات */
+        p {
+            line-height: 1.8; /* leading-relaxed */
+        }
+
+
+        /* كلاس مخصص لضبط ارتفاع السطور للعناوين الكبيرة (كما طلبت) */
+        .title-line-height {
+            line-height: 1.8 !important;
+        }
+
+
+        /* --- (إضافة) ستايل مؤشر الماوس المخصص --- */
+        #cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: #0056b3; /* لون أزرق */
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+        }
+        #cursor-outline {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(0, 86, 179, 0.5); /* أزرق شفاف */
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.2s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+        }
+        /* حالة الـ Hover */
+        body.cursor-hover #cursor-dot {
+            background-color: rgba(0, 86, 179, 0.5);
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+        body.cursor-hover #cursor-outline {
+            width: 60px;
+            height: 60px;
+            border-color: rgba(0, 86, 179, 0.8);
+            opacity: 0.5;
+        }
+
+
+
+
+        /* --- شاشة التحميل (Preloader) --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 9999;
+            display: grid;
+            place-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            transition-delay: 0.5s; /* تأخير بسيط قبل الإخفاء */
+        }
+        #preloader.preloader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-logo {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+
+        /* --- أنيميشن خلفية الهيرو المتدرجة --- */
+        @keyframes pan-background {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-gradient {
+            background-size: 200% 200%;
+            animation: pan-background 15s linear infinite;
+        }
+
+
+        /* --- أنيميشن الأشكال المجردة في الهيرو (Mouse Parallax) --- */
+        .hero-blob {
+            transition: transform 0.1s linear; /* حركة ناعمة مع الماوس */
+        }
+        .hero-content {
+            transition: transform 0.1s linear;
+        }
+
+
+        /* --- أنيميشن شريط الثقة المتحرك --- */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-content {
+            animation: marquee 30s linear infinite;
+        }
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+
+        /* --- أنيميشن رسم الخط (SVG Path) --- */
+        .draw-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+        .draw-path.is-visible {
+             animation: draw 3s ease-in-out forwards;
+        }
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+        
+        /* --- أنيميشن الظهور التدريجي (Fade In) --- */
+        .fade-in-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* --- أنيميشن الظهور المتتابع (Staggered) --- */
+        .stagger-item-1.is-visible { transition-delay: 0.1s; }
+        .stagger-item-2.is-visible { transition-delay: 0.2s; }
+        .stagger-item-3.is-visible { transition-delay: 0.3s; }
+        .stagger-item-4.is-visible { transition-delay: 0.4s; }
+
+
+
+
+        /* --- ستايل الشريط الثابت (Sticky Nav) --- */
+        #sticky-nav {
+            transition: top 0.3s ease-in-out;
+            top: -100px; 
+            background-color: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); 
+        }
+        #sticky-nav.visible {
+            top: 0;
+        }
+
+
+        /* --- ستايل البوب-آب (Popup/Modal) --- */
+        .popup-overlay {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-overlay.popup-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform: scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .popup-overlay.popup-visible .popup-content {
+            transform: scale(1);
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .popup-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .popup-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+        }
+        .popup-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            position: relative;
+        }
+        .popup-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .popup-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #0056b3;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+
+        /* --- ستايل الأزرار (لحل مشكلة الهيرو) --- */
+        .cta-base {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        .cta-primary {
+            background-color: #28a745; 
+            color: white;
+        }
+        .cta-primary:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .cta-blue {
+            background-color: #0056b3; 
+            color: white;
+        }
+        .cta-blue:hover {
+            background-color: #004494;
+            transform: translateY(-2px);
+        }
+        .cta-hero-buy {
+            background-color: white;
+            color: #0056b3;
+            border: 2px solid white;
+        }
+        .cta-hero-buy:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        .cta-ghost {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .cta-ghost:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .cta-text {
+            background-color: transparent;
+            color: #d1d5db; 
+            text-decoration: underline;
+        }
+        .cta-text:hover {
+            color: white;
+        }
+
+
+        /* --- ستايل أزرار الشراء (مع حركة السهم) --- */
+        .cta-buy {
+            position: relative;
+            overflow: hidden;
+            padding-right: 3.5rem; 
+        }
+        .cta-buy .arrow-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .cta-buy:hover .arrow-icon {
+            opacity: 1;
+            transform: translateY(-50%) translateX(-10px); 
+        }
+
+
+        /* --- ستايل الباقة الأكثر شيوعاً --- */
+        .most-popular-badge {
+            position: absolute;
+            -top: 0.8rem;
+            right: 1.5rem;
+            background-color: #ffc107;
+            color: #333;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .most-popular-card {
+            border: 2px solid #ffc107;
+            transform: scale(1.02);
+        }
+        
+        /* --- ستايل زرار الفيديو --- */
+        .video-play-button {
+             transition: transform 0.3s ease;
+        }
+        .video-play-button-container:hover .video-play-button {
+            transform: scale(1.1);
+        }
+
+
+        /* --- ستايل شرح التفاصيل (Tooltips) --- */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip-icon {
+            font-size: 0.8rem;
+            color: #6b7280;
+            border: 1px solid #6b7280;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 5px;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%; 
+            left: 50%;
+            margin-left: -100px; 
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+
+        /* --- ستايل الأسئلة الشائعة (FAQ) --- */
+        .faq-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: background-color 0.3s ease;
+        }
+        .faq-item summary:hover {
+            background-color: #f9fafb;
+        }
+        .faq-item summary:hover .faq-icon {
+            transform: scale(1.1);
+        }
+        .faq-item .faq-question {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .faq-item .faq-icon {
+            transition: transform 0.3s ease;
+            color: #0056b3;
+            font-size: 1.5rem;
+        }
+        .faq-item details[open] summary .faq-icon {
+            transform: rotate(135deg); 
+        }
+        .faq-item details[open] summary:hover .faq-icon {
+            transform: rotate(135deg) scale(1.1);
+        }
+        .faq-item .faq-answer {
+            padding: 1.5rem;
+            background-color: #f9fafb;
+            border-radius: 0 0 8px 8px;
+            border-top: 1px solid #e5e7eb;
+            color: #374151;
+            line-height: 1.8;
+        }
+        
+        /* --- ستايل نقشة الفوتر --- */
+        .textured-bg {
+            background-color: #1f2937; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23374151' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+        }
+
+
+        /* --- سTAيL عLى اLمUبAيL --- */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr); 
+            }
+            .most-popular-card {
+                 transform: scale(1.05);
+            }
+        }
+        
+        /* --- ستايل كروت الـ 3D Tilt --- */
+        .tilt-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .most-popular-card:hover {
+            transform: scale(1.07);
+        }
+
+
+        /* --- ستايل خلفيات الأورورا المتحركة --- */
+        .aurora-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        .aurora-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 86, 179, 0.05), transparent 50%),
+                              radial-gradient(circle at 80% 90%, rgba(139, 92, 246, 0.05), transparent 50%);
+            background-size: 200% 200%;
+            animation: aurora-move 20s ease-in-out infinite;
+            z-index: 0;
+        }
+        .aurora-bg > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* --- (إضافة) ستايل الأيقونات المغناطيسية --- */
+        .magnetic-icon {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+
+    </style>
+</head>
+
+
+<body class="bg-gray-100 text-gray-800 antialiased">
+    
+    <!-- (إضافة) مؤشر الماوس المخصص -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+
+    <!-- ========= شاشة التحميل (Preloader) ========= -->
+    <div id="preloader" class="animated-gradient bg-gradient-to-r from-blue-800 to-blue-600">
+        <!-- لوجو Awan ON (نفس اللي في الـ Nav Bar) -->
+        <svg class="h-16 w-16 text-white preloader-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2zm0 12c-2.21 0-4 .895-4 2s1.79 2 4 2 4-.895 4-2-1.79-2-4-2z"></path>
+        </svg>
+    </div>
+
+
+
+
+    <!-- شريط التنقل الثابت (Sticky Nav) -->
+    <nav id="sticky-nav" class="fixed w-full backdrop-blur shadow-md z-50 px-4 py-3">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- اللوجو -->
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <svg class="h-8 w-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2zm0 12c-2.21 0-4 .895-4 2s1.79 2 4 2 4-.895 4-2-1.79-2-4-2z"></path>
+                </svg>
+                <span class="font-bold text-xl text-gray-800">Awan ON</span>
+            </div>
+            <!-- اللينكات وزرار الـ CTA -->
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <a href="#pricing" class="hidden md:block text-gray-600 hover:text-blue-700 font-medium">الباقات</a>
+                <a href="#faq" class="hidden md:block text-gray-600 hover:text-blue-700 font-medium">الأسئلة الشائعة</a>
+                <!-- الزرار الذكي (Smart CTA) -->
+                <a href="#pricing" id="smart-sticky-cta" class="cta-base cta-primary text-sm px-4 py-2">
+                    ابدأ دلوقتي
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <!-- ========= القسم 1: الهيرو (الرئيسي) ========= -->
+    <header id="hero-header" class="relative overflow-hidden animated-gradient bg-gradient-to-r from-blue-800 to-blue-600 text-white pt-20">
+        <!-- طبقة الأشكال المجردة (للعمق) -->
+        <div class="absolute inset-0 z-0 opacity-20">
+            <!-- شكل 1 -->
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="hero-blob absolute w-96 h-96 -top-20 -right-20" data-depth="0.1">
+                <path fill="#FFFFFF" d="M40,0C17.9,0,0,17.9,0,40s17.9,40,40,40s40-17.9,40-40S62.1,0,40,0Z" transform="translate(100 100) scale(2.5)"></path>
+            </svg>
+            <!-- شكل 2 -->
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="hero-blob absolute w-72 h-72 bottom-0 -left-10" data-depth="0.2">
+                <path fill="#FFFFFF" d="M40,0C17.9,0,0,17.9,0,40s17.9,40,40,40s40-17.9,40-40S62.1,0,40,0Z" transform="translate(100 100) scale(1.8)"></path>
+            </svg>
+        </div>
+        
+        <div class="hero-content container mx-auto px-6 py-16 text-center relative z-10" data-depth="0.05">
+            <!-- (المشكلة) -->
+            <h1 class="text-4xl md:text-6xl font-black mb-4 title-line-height">موقعك شكله قديم أو معندكش موقع أصلاً؟</h1>
+            <!-- (الحل) -->
+            <p class="text-xl md:text-2xl mb-8 font-light text-gray-200 max-w-3xl mx-auto leading-relaxed">امتلك موقع إلكتروني احترافي بأقل اشتراك شهري. واجهة تليق بشركتك وتجذب عملاء جدد بدون ما تدفع مبلغ كبير مرة واحدة.</p>
+
+
+            <!-- زرار الـ CTA الأساسي (للاستكشاف) -->
+            <a href="#pricing" class="cta-base cta-primary text-lg mb-6 shadow-lg">
+                شوف الباقات وابدأ دلوقتي
+            </a>
+
+
+            <!-- التسلسل الهرمي للـ CTA (للاشتراء الفوري) -->
+            <div class="mt-4 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4 md:space-x-reverse">
+                <a href="#buy-medium" class="cta-base cta-hero-buy open-in-popup" data-url="https://example.com/buy-medium-package" data-title="شراء باكدج النمو">
+                    💳 اشتري دلوقتي (الباقة الأكثر شيوعاً)
+                </a>
+                <a href="#register-later" class="cta-base cta-ghost open-in-popup" data-url="https://example.com/register" data-title="تسجيل والدفع لاحقاً">
+                    📱 سجل وادفع بعدين (محافظ/InstaPay)
+                </a>
+                <a href="#help" class="cta-base cta-text open-in-popup" data-url="https://example.com/help-form" data-title="اطلب مساعدة">
+                    🤔 اطلب مساعدة
+                </a>
+            </div>
+        </div>
+
+
+        <!-- فاصل الموجة (SVG Divider) -->
+        <div class="relative z-10" style="padding-bottom: 12rem;"> 
+            <svg class="absolute bottom-0 w-full h-auto" style="height: 12rem;" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path fill="#f3f4f6" fill-opacity="1" d="M0,192L80,186.7C160,181,320,171,480,181.3C640,192,800,224,960,218.7C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+            </svg>
+        </div>
+    </header>
+
+
+    <main>
+        <!-- ========= القسم 2: شريط الثقة المتحرك (Trust Bar) ========= -->
+        <section class="bg-gray-100 py-12 overflow-hidden">
+            <div class="container mx-auto text-center">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-8">شركاء نجاح وثقوا فينا</h3>
+                
+                <div class="marquee-container relative w-full h-14 flex items-center">
+                    <div class="marquee-content flex w-[200%] absolute left-0">
+                        <!-- تكرار اللوجوهات مرتين للـ loop -->
+                        <div class="logos-slide flex-shrink-0 w-1/2 flex justify-around items-center space-x-10 space-x-reverse px-10">
+                            <!-- استبدل هذه باللوجوهات الحقيقية -->
+                            <img src="https://placehold.co/150x50/png?text=Client+1&font=cairo" alt="شعار عميل 1" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 1" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+2&font=cairo" alt="شعار عميل 2" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 2" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+3&font=cairo" alt="شعار عميل 3" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 3" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+4&font=cairo" alt="شعار عميل 4" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 4" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+5&font=cairo" alt="شعار عميل 5" class="h-10 grayscale hidden md:block hover:grayscale-0 transition-all duration-300" title="عميل 5" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+6&font=cairo" alt="شعار عميل 6" class="h-10 grayscale hidden md:block hover:grayscale-0 transition-all duration-300" title="عميل 6" loading="lazy">
+                        </div>
+                        <div class="logos-slide flex-shrink-0 w-1/2 flex justify-around items-center space-x-10 space-x-reverse px-10">
+                            <!-- اللوجوهات المكررة -->
+                            <img src="https://placehold.co/150x50/png?text=Client+1&font=cairo" alt="شعار عميل 1" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 1" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+2&font=cairo" alt="شعار عميل 2" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 2" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+3&font=cairo" alt="شعار عميل 3" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 3" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+4&font=cairo" alt="شعار عميل 4" class="h-10 grayscale hover:grayscale-0 transition-all duration-300" title="عميل 4" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+5&font=cairo" alt="شعار عميل 5" class="h-10 grayscale hidden md:block hover:grayscale-0 transition-all duration-300" title="عميل 5" loading="lazy">
+                            <img src="https://placehold.co/150x50/png?text=Client+6&font=cairo" alt="شعار عميل 6" class="h-10 grayscale hidden md:block hover:grayscale-0 transition-all duration-300" title="عميل 6" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 3: المشكلة (الإثارة) ========= -->
+        <section class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <span class="text-sm font-bold text-blue-600 uppercase">نقطة الألم</span>
+                <!-- (الإثارة) -->
+                <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 max-w-2xl mx-auto title-line-height">بتخسر عملاء كل يوم لصالح منافسين شكلهم "أونلاين" أقوى منك</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">شكلك قدام العملاء مش قوي، الثقة فيك بتقل، وميزانيتك بتضيع على حلول مؤقتة ومكلفة. كل يوم بيعدي من غير واجهة أونلاين احترافية هو فرصة ضايعة.</p>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 4: الحل (Solution) - تعديل: خلفية أورورا ========= -->
+        <section class="py-16 md:py-24 bg-blue-50 aurora-bg">
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                
+                <!-- رسم SVG الإبداعي للحل -->
+                <div class="fade-in-item stagger-item-1 is-visible">
+                    <svg class="w-full h-auto" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="shineGradient" x1="-100%" y1="0" x2="0%" y2="0">
+                                <stop offset="0%" stop-color="white" stop-opacity="0.3"></stop>
+                                <stop offset="50%" stop-color="white" stop-opacity="0.0"></stop>
+                                <stop offset="100%" stop-color="white" stop-opacity="0.0"></stop>
+                                <animate attributeName="x1" from="-100%" to="200%" dur="4s" repeatCount="indefinite"></animate>
+                                <animate attributeName="x2" from="0%" to="300%" dur="4s" repeatCount="indefinite"></animate>
+                            </linearGradient>
+                            <clipPath id="laptopScreen">
+                                <rect x="65" y="65" width="270" height="170" rx="5"></rect>
+                            </clipPath>
+                            <clipPath id="phoneScreen">
+                                <rect x="365" y="145" width="70" height="140" rx="8"></rect>
+                            </clipPath>
+                        </defs>
+                        <path fill="#4a5568" d="M50 240h300v10H50z"></path>
+                        <path fill="#718096" d="M40 250h320v10H40z"></path>
+                        <path fill="#e2e8f0" d="M60 60h280v180H60z"></path>
+                        <rect x="65" y="65" width="270" height="170" rx="5" fill="#0056b3"></rect>
+                        <path fill="url(#shineGradient)" clip-path="url(#laptopScreen)" d="M65 65h270v170H65z"></path>
+                        <path fill="#2d3748" d="M360 140h80v150h-80z" rx="10"></path>
+                        <rect x="365" y="145" width="70" height="140" rx="8" fill="#0056b3"></rect>
+                        <path fill="url(#shineGradient)" clip-path="url(#phoneScreen)" d="M365 145h70v140h-70z"></path>
+                        <circle cx="400" cy="130" r="3" fill="#2d3748"></circle>
+                        <path fill="#a0aec0" d="M190 240h20v10h-20z"></path>
+                    </svg>
+                </div>
+
+
+                <!-- نص الحل -->
+                <div class="fade-in-item stagger-item-2 is-visible">
+                    <span class="text-sm font-bold text-blue-600 uppercase">الحل المثالي</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 title-line-height">احترافية كاملة.. بتكلفة بسيطة ومخاطر صفر</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">إحنا مش بنبيعلك موقع، إحنا بنقدملك "خدمة" متكاملة باشتراك شهري بسيط. هتاخد موقع احترافي، سريع، وآمن، مع دعم فني مستمر، وكل ده من غير ما تتحمل أي تكاليف تأسيس ضخمة أو عقود معقدة.</p>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-center">
+                            <svg class="w-6 h-6 text-blue-600 mr-3 rtl:ml-3 rtl:mr-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-7-4h.01M12 16h.01"></path></svg>
+                            <span>تصميم احترافي وجذاب يعكس علامتك التجارية.</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-6 h-6 text-blue-600 mr-3 rtl:ml-3 rtl:mr-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                            <span>متوافق 100% مع كل شاشات الموبايل والتابلت.</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-6 h-6 text-blue-600 mr-3 rtl:ml-3 rtl:mr-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.93 14.93A2 2 0 0010 16.828V19a2 2 0 002 2h0a2 2 0 002-2v-2.172a2 2 0 00-.93-1.616L12 13.828 10.93 14.93z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.93 14.93l-2.828-2.828A2 2 0 007.828 10H5a2 2 0 00-2 2v0a2 2 0 002 2h2.828a2 2 0 001.414-.586L11.93 14.93zM12.07 14.93l2.828-2.828A2 2 0 0116.172 10H19a2 2 0 012 2v0a2 2 0 01-2 2h-2.828a2 2 0 01-1.414-.586L12.07 14.93z"></path></svg>
+                            <span>استضافة سريعة وآمنة مع شهادة SSL مجانية.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 5: كيف نعمل (How It Works) ========= -->
+        <section class="py-16 md:py-24 bg-white draw-path-container">
+            <div class="container mx-auto px-6 text-center">
+                <span class="text-sm font-bold text-blue-600 uppercase">الطريق للنجاح</span>
+                <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 max-w-2xl mx-auto title-line-height">3 خطوات بسيطة للانطلاق بموقعك الجديد</h2>
+                
+                <div class="relative mt-16 max-w-5xl mx-auto">
+                    <!-- الخط الرابط (SVG) - يظهر في الشاشات الكبيرة فقط -->
+                    <svg class="hidden md:block absolute top-1/2 left-0 w-full h-auto" style="transform: translateY(-50%); z-index: 0;" viewBox="0 0 800 100" preserveAspectRatio="none">
+                        <path class="draw-path" fill="none" stroke="#d1d5db" stroke-width="2" stroke-dasharray="8 8" 
+                              d="M 50,50 C 150,50 150,10 250,10 S 350,90 450,90 S 550,50 650,50 S 750,50 750,50" />
+                    </svg>
+
+
+                    <!-- الخطوات (فوق الخط) -->
+                    <div class="relative grid grid-cols-1 md:grid-cols-3 gap-12 z-10">
+                        <!-- خطوة 1 -->
+                        <div class="text-center fade-in-item stagger-item-1">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <svg class="w-12 h-12" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="12" y="16" width="40" height="32" rx="4" ry="4"></rect>
+                                    <path d="M20 16V12a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v4"></path>
+                                    <path d="M24 32h16"></path>
+                                    <path d="M24 40h8"></path>
+                                    <circle cx="28" cy="24" r="2"></circle>
+                                    <circle cx="36" cy="24" r="2"></circle>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">1. اختار الباقة</h3>
+                            <p class="text-gray-600 leading-relaxed">اختار الباقة المناسبة لاحتياجاتك (هبوط، أعمال، متجر) وكمل عملية الدفع أو التسجيل.</p>
+                        </div>
+                        <!-- خطوة 2 -->
+                        <div class="text-center fade-in-item stagger-item-2">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <svg class="w-12 h-12" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M32 40a16 16 0 0 0-16 16v4h32v-4a16 16 0 0 0-16-16z"></path>
+                                    <circle cx="32" cy="24" r="8"></circle>
+                                    <path d="M48 40h4a8 8 0 0 1 8 8v4"></path>
+                                    <path d="M16 40h-4a8 8 0 0 0-8 8v4"></path>
+                                    <path d="M40 32a8 8 0 0 1 8-8h4v16"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">2. نتواصل معاك</h3>
+                            <p class="text-gray-600 leading-relaxed">فريقنا هيتواصل معاك فوراً عشان يستلم منك المحتوى (النصوص، اللوجو، الألوان) المطلوبة.</p>
+                        </div>
+                        <!-- خطوة 3 -->
+                        <div class="text-center fade-in-item stagger-item-3">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <svg class="w-12 h-12" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M52 22a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V22z"></path>
+                                    <path d="M32 6l-14 36h28L32 6z"></path>
+                                    <path d="M32 58v-10"></path>
+                                    <path d="M12 42l-4-4"></path>
+                                    <path d="M52 42l4-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">3. الانطلاق</h3>
+                            <p class="text-gray-600 leading-relaxed">في خلال 48-72 ساعة، موقعك هيكون جاهز ومنطلق أونلاين، ومربوط بالدومين بتاعك.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========= القسم 6: عدادات الأرقام (Counters) - تعديل: خلفية أورورا ========= -->
+        <section class="py-16 bg-blue-50 aurora-bg">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="fade-in-item stagger-item-1">
+                        <h3 class="text-4xl md:text-5xl font-black text-blue-600" data-count="150">0</h3>
+                        <p class="text-lg font-medium text-gray-700 mt-2">عميل سعيد</p>
+                    </div>
+                    <div class="fade-in-item stagger-item-2">
+                        <h3 class="text-4xl md:text-5xl font-black text-blue-600" data-count="200">0</h3>
+                        <p class="text-lg font-medium text-gray-700 mt-2">مشروع مكتمل</p>
+                    </div>
+                    <div class="fade-in-item stagger-item-3">
+                        <h3 class="text-4xl md:text-5xl font-black text-blue-600" data-count="48">0</h3>
+                        <p class="text-lg font-medium text-gray-700 mt-2">ساعة متوسط التسليم</p>
+                    </div>
+                    <div class="fade-in-item stagger-item-4">
+                        <h3 class="text-4xl md:text-5xl font-black text-blue-600" data-count="100">0<span>%</span></h3>
+                        <p class="text-lg font-medium text-gray-700 mt-2">رضاء العملاء</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 7: الباقات والأسعار (Pricing) ========= -->
+        <section id="pricing" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <span class="text-sm font-bold text-blue-600 uppercase">الأسعار</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 title-line-height">اختار الباكدج المناسبة لشركتك</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">باقات شفافة ومصممة عشان تناسب كل مرحلة من مراحل البيزنس بتاعك.</p>
+                </div>
+
+
+                <!-- شريط الاستعجال/العرض -->
+                <div class="bg-yellow-300 text-yellow-900 p-4 rounded-lg text-center font-bold text-lg mb-8 shadow-md">
+                    🎉 عرض خاص: خصم 10% لكل الاشتراكات الجديدة لمدة 48 ساعة بس!
+                </div>
+
+
+                <!-- جدول الأسعار (المعدل للموبايل) -->
+                <div class="pricing-grid">
+                    
+                    <!-- باقة الانطلاقة -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+                        <h3 class="text-2xl font-bold text-gray-900 text-center">باكدج الانطلاقة</h3>
+                        <p class="text-gray-500 text-center mb-6">(Landing Page)</p>
+                        <div class="text-center mb-6">
+                            <span class="text-5xl font-black text-gray-900">349</span>
+                            <span class="text-lg font-medium text-gray-600">جنيه/شهرياً</span>
+                        </div>
+                        <p class="text-center text-gray-600 mb-8 font-medium leading-relaxed">مناسب لـ: عرض خدمة/منتج واحد, جمع بيانات العملاء.</p>
+                        
+                        <ul class="space-y-4 mb-10 flex-grow">
+                            <!-- الميزات -->
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>1 (صفحة هبوط)</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>تصميم احترافي ومتوافق مع الموبايل</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>استضافة سريعة وشهادة SSL مجانية</span></li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span>دعم فني أساسي</span>
+                                <span class="tooltip-container">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-text">يشمل: تعديل نصوص/ألوان، إصلاح أي أخطاء، الرد خلال 24 ساعة.</span>
+                                </span>
+                            </li>
+                            <li class="flex items-center text-gray-400"><svg class="w-5 h-5 text-gray-400 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg><span>إيميل رسمي باسم الدومين</span></li>
+                            <li class="flex items-center text-gray-400"><svg class="w-5 h-5 text-gray-400 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg><span>متجر إلكتروني</span></li>
+                        </ul>
+                        <div class="mt-auto">
+                            <a href="#buy-landing" class="cta-base cta-blue w-full cta-buy open-in-popup" data-url="https://example.com/buy-landing" data-title="شراء باكدج الانطلاقة">
+                                اشتري دلوقتي
+                                <span class="arrow-icon">&larr;</span>
+                            </a>
+                            <a href="#register-landing" class="cta-base cta-ghost text-blue-600 border-blue-600 w-full mt-3 open-in-popup" data-url="https://example.com/register-landing" data-title="تسجيل باكدج الانطلاقة">
+                                سجل وادفع بعدين
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <!-- باقة النمو (الأكثر شيوعاً) -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card most-popular-card bg-white p-8 rounded-2xl shadow-lg border-2 border-yellow-400 relative flex flex-col">
+                        <div class="most-popular-badge">
+                            الأكثر شيوعاً
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 text-center">باكدج النمو</h3>
+                        <p class="text-gray-500 text-center mb-6">(Business Website)</p>
+                        <div class="text-center mb-6">
+                            <span class="text-5xl font-black text-blue-600">749</span>
+                            <span class="text-lg font-medium text-gray-600">جنيه/شهرياً</span>
+                        </div>
+                        <p class="text-center text-gray-600 mb-8 font-medium leading-relaxed">مناسب لـ: شركات تعريفية, عرض خدمات احترافي.</p>
+                        
+                        <ul class="space-y-4 mb-10 flex-grow">
+                            <!-- الميزات -->
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>3 صفحات (رئيسية، عنا، اتصل)</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>تصميم احترافي ومتوافق مع الموبايل</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>استضافة سريعة وشهادة SSL مجانية</span></li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span>دعم فني مستمر</span>
+                                <span class="tooltip-container">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-text">يشمل: الدعم الأساسي + إضافة وتعديل المحتوى البسيط.</span>
+                                </span>
+                            </li>
+                            <li class="flex items-center">
+                                <!-- أيقونة الإيميل -->
+                                <svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 10.884l7.997-5H2.003zM18 7.116l-8 4.444-8-4.444V16a2 2 0 002 2h12a2 2 0 002-2V7.116z"></path></svg>
+                                <span>إيميل رسمي باسم الدومين (1 إيميل)</span>
+                            </li>
+                            <li class="flex items-center text-gray-400"><svg class="w-5 h-5 text-gray-400 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg><span>متجر إلكتروني</span></li>
+                        </ul>
+                        <div class="mt-auto">
+                            <a href="#buy-medium" class="cta-base cta-primary w-full cta-buy open-in-popup" data-url="https://example.com/buy-medium" data-title="شراء باكدج النمو">
+                                اشتري دلوقتي
+                                <span class="arrow-icon">&larr;</span>
+                            </a>
+                            <a href="#register-medium" class="cta-base cta-ghost text-blue-600 border-blue-600 w-full mt-3 open-in-popup" data-url="https://example.com/register-medium" data-title="تسجيل باكدج النمو">
+                                سجل وادفع بعدين
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <!-- باقة الريادة -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
+                        <h3 class="text-2xl font-bold text-gray-900 text-center">باكدج الريادة</h3>
+                        <p class="text-gray-500 text-center mb-6">(E-commerce Website)</p>
+                        <div class="text-center mb-6">
+                            <span class="text-5xl font-black text-gray-900">999</span>
+                            <span class="text-lg font-medium text-gray-600">جنيه/شهرياً</span>
+                        </div>
+                        <p class="text-center text-gray-600 mb-8 font-medium leading-relaxed">مناسب لـ: للبيع أونلاين مباشرة, و لجمع و انشاء قاعدة بيانات عملاء كبيرة.</p>
+                        
+                        <ul class="space-y-4 mb-10 flex-grow">
+                            <!-- الميزات -->
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>متجر كامل بعدد لا نهائي من الصفحات</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>تصميم احترافي ومتوافق مع الموبايل</span></li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>استضافة سريعة وشهادة SSL مجانية</span></li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span>دعم فني متقدم</span>
+                                <span class="tooltip-container">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-text">يشمل: دعم النمو + أولوية في الرد + تقارير أداء شهرية.</span>
+                                </span>
+                            </li>
+                            <li class="flex items-center">
+                                <!-- أيقونة الإيميل -->
+                                <svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 10.884l7.997-5H2.003zM18 7.116l-8 4.444-8-4.444V16a2 2 0 002 2h12a2 2 0 002-2V7.116z"></path></svg>
+                                <span>إيميل رسمي باسم الدومين (حتى 3)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <!-- أيقونة المتجر -->
+                                <svg class="w-5 h-5 text-green-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.921.778H13.81l-1.115 5.572A1 1 0 0111.72 12H6.28a1 1 0 01-.97-1.216L6.31 4H4a1 1 0 010-2h1.618a1 1 0 01.97 1.216L6.99 4.305A.997.997 0 017.91 5H13a1 1 0 01.97 1.216L12.862 11H11.72a.002.002 0 00-.015.006A1 1 0 1013 13h1a1 1 0 100-2H6.28a.002.002 0 00-.015.006A1 1 0 107 13h1a1 1 0 100-2h-.138l.64-3.205A.997.997 0 019.47 7H14.53a.997.997 0 01.921-.778L15.757 5H17a1 1 0 110 2h-1.04l-1.093 5.466A2 2 0 0113.81 14H7.19a2 2 0 01-1.956-2.466L4.17 3H3zM7 16a1 1 0 110 2 1 1 0 010-2zm10 0a1 1 0 110 2 1 1 0 010-2z"></path></svg>
+                                <span>متجر إلكتروني + بوابات دفع</span>
+                            </li>
+                        </ul>
+                        <div class="mt-auto">
+                            <a href="#buy-ecommerce" class="cta-base cta-blue w-full cta-buy open-in-popup" data-url="https://example.com/buy-ecommerce" data-title="شراء باكدج الريادة">
+                                اشتري دلوقتي
+                                <span class="arrow-icon">&larr;</span>
+                            </a>
+                            <a href="#register-ecommerce" class="cta-base cta-ghost text-blue-600 border-blue-600 w-full mt-3 open-in-popup" data-url="https://example.com/register-ecommerce" data-title="تسجيل باكدج الريادة">
+                                سجل وادفع بعدين
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 8: الضمان الذهبي (Risk Reversal) - تعديل: خلفية أورورا ========= -->
+        <section class="py-16 md:py-24 bg-blue-50 aurora-bg">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-2xl mx-auto">
+                    <!-- ختم الضمان SVG -->
+                    <svg class="w-24 h-24 mx-auto mb-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"></path>
+                    </svg>
+                    
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 title-line-height">اشتري وإنت متطمن تماماً.. الضمان الذهبي</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">إحنا واثقين في جودة شغلنا. لو الخدمة اللي استلمتها مش مطابقة للمواصفات المكتوبة في الباقة، أو اتأخرنا عليك في التسليم عن الميعاد المحدد، ليك الحق تطلب فلوسك بالكامل. هدفنا رضاك قبل أي حاجة.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 9: نماذج الأعمال (Portfolio) ========= -->
+        <section id="portfolio" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <span class="text-sm font-bold text-blue-600 uppercase">نماذج أعمالنا</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 title-line-height">شوف مواقع زي اللي ممكن تستلمها</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">جودة شغلنا هي اللي بتتكلم عننا.</p>
+                </div>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- نموذج 1 (تفاعلي) -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card portfolio-card bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                        <!-- إطار المتصفح SVG -->
+                        <div class="bg-gray-200 px-4 py-3 flex items-center space-x-2 space-x-reverse">
+                            <span class="w-3 h-3 bg-red-500 rounded-full block"></span>
+                            <span class="w-3 h-3 bg-yellow-400 rounded-full block"></span>
+                            <span class="w-3 h-3 bg-green-500 rounded-full block"></span>
+                        </div>
+                        <!-- حاوية الصورة -->
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://placehold.co/600x800/0056b3/white?text=Awan+ON+Project+1+Scroll&font=cairo" alt="نموذج عمل 1" class="w-full h-auto object-cover portfolio-image" loading="lazy">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">النتيجة: +40% زيادة في استفسارات العملاء</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">الخدمة: موقع تعريفي لشركة النيل للعقارات.</p>
+                            <a href="#portfolio-1" class="font-medium text-blue-600 hover:text-blue-800 open-in-popup" data-url="https://example.com/project-1" data-title="مشروع شركة النيل">شوف الموقع &larr;</a>
+                        </div>
+                    </div>
+
+
+                    <!-- نموذج 2 (تفاعلي) -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card portfolio-card bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                        <!-- إطار المتصفح SVG -->
+                        <div class="bg-gray-200 px-4 py-3 flex items-center space-x-2 space-x-reverse">
+                            <span class="w-3 h-3 bg-red-500 rounded-full block"></span>
+                            <span class="w-3 h-3 bg-yellow-400 rounded-full block"></span>
+                            <span class="w-3 h-3 bg-green-500 rounded-full block"></span>
+                        </div>
+                        <!-- حاوية الصورة -->
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://placehold.co/600x800/28a745/white?text=Awan+ON+Project+2+Scroll&font=cairo" alt="نموذج عمل 2" class="w-full h-auto object-cover portfolio-image" loading="lazy">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">النتيجة: +60% مبيعات أونلاين في أول شهر</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">الخدمة: متجر إلكتروني لبراند "الأصيل" للملابس.</p>
+                            <a href="#portfolio-2" class="font-medium text-blue-600 hover:text-blue-800 open-in-popup" data-url="https://example.com/project-2" data-title="مشروع براند الأصيل">شوف الموقع &larr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 10: شهادة الفيديو (Video Testimonial) - تعديل: خلفية أورورا ========= -->
+        <section class="py-16 md:py-24 bg-blue-50 aurora-bg">
+            <!-- تعديل: حاوية جديدة لكسر القواعد -->
+            <div class="container mx-auto px-6 relative">
+                
+                <div class="text-center mb-12">
+                     <span class="text-sm font-bold text-blue-600 uppercase">شهادة نعتز بها</span>
+                </div>
+
+
+                <!-- حاوية الفيديو (بقت هي الأساس) -->
+                <div class="relative max-w-3xl mx-auto shadow-2xl rounded-2xl overflow-hidden">
+                    <!-- غلاف فيديو متحرك (GIF Placeholder) -->
+                    <div class="video-play-button-container aspect-w-16 aspect-h-9 bg-gray-900 flex items-center justify-center cursor-pointer open-in-popup" data-url="https://www.youtube.com/embed/dQw4w9WgXcQ" data-title="شهادة م/ أحمد طارق">
+                        <img src="https://placehold.co/1280x720/000000/ffffff/gif?text=Live+Video+Preview&font=cairo" alt="شهادة عميل بالفيديو (متحركة)" class="w-full h-full object-cover" loading="lazy">
+                        <div class="absolute">
+                            <svg class="video-play-button w-20 h-20 text-white opacity-70 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                        </div>
+                    </div>
+                    
+                    <!-- تعديل: العنوان "العائم" (Floating Title) -->
+                    <div class="absolute z-10 -top-8 -right-8 md:top-auto md:bottom-8 md:-right-16 rtl:md:-left-16 rtl:md:right-auto">
+                        <div class="bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-lg max-w-sm">
+                             <h2 class="text-2xl md:text-3xl font-black text-gray-900 title-line-height">"بصراحة، حولوا فكرتي لموقع أحسن ما كنت أتخيل"</h2>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="mt-6 text-xl font-medium text-gray-800">م/ أحمد طارق</p>
+                    <p class="text-gray-600">مؤسس شركة "النيل للعقارات"</p>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 11: آراء العملاء (Testimonials) ========= -->
+        <section class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <span class="text-sm font-bold text-blue-600 uppercase">قالوا عنا</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 title-line-height">اسمعها من عملائنا بنفسك</h2>
+                </div>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- رأي 1 -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card testimonial-card bg-gray-50 p-8 rounded-2xl shadow-lg">
+                        <svg class="w-12 h-12 text-blue-100 mb-4" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M448 294.2v171.8H276.2v-171.8H448zM0 294.2v171.8h171.8V294.2H0zM242.5 0c-33.3 0-63.3 11.1-88.3 33.2S111 81.1 111 114.3v96.4H0V466h215.2V210.7H111V114.3c0-22.3 7.4-42.3 22.2-59.9S169.5 33.2 192 33.2h50.5V0zM448 0v210.7H336.8V114.3c0-22.3 7.4-42.3 22.2-59.9s34.8-21.2 57-21.2H448z"></path></svg>
+                        <p class="text-lg text-gray-700 mb-6 font-medium leading-relaxed">"كنت خايف من موضوع الاشتراك الشهري، بس طلع أوفر وأحسن بكتير. الدعم الفني محترم جداً وسريع، والموقع شكله احترافي فعلاً."</p>
+                        <div class="flex items-center">
+                            <svg class="w-12 h-12 rounded-full mr-4 rtl:ml-4 rtl:mr-0 object-cover" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="50" fill="#FFC0CB" />
+                                <path d="M50 62.5C61.0457 62.5 70 53.5457 70 42.5C70 31.4543 61.0457 22.5 50 22.5C38.9543 22.5 30 31.4543 30 42.5C30 53.5457 38.9543 62.5 50 62.5Z" fill="#F472B6" />
+                                <path d="M77.5 100C77.5 86.4919 65.1878 75.5 50 75.5C34.8122 75.5 22.5 86.4919 22.5 100H77.5Z" fill="#F472B6" />
+                            </svg>
+                            <div>
+                                <h4 class="font-bold text-gray-900">سارة محمود</h4>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">عميل موثق</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- رأي 2 -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card testimonial-card bg-gray-50 p-8 rounded-2xl shadow-lg">
+                        <svg class="w-12 h-12 text-blue-100 mb-4" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M448 294.2v171.8H276.2v-171.8H448zM0 294.2v171.8h171.8V294.2H0zM242.5 0c-33.3 0-63.3 11.1-88.3 33.2S111 81.1 111 114.3v96.4H0V466h215.2V210.7H111V114.3c0-22.3 7.4-42.3 22.2-59.9S169.5 33.2 192 33.2h50.5V0zM448 0v210.7H336.8V114.3c0-22.3 7.4-42.3 22.2-59.9s34.8-21.2 57-21.2H448z"></path></svg>
+                        <p class="text-lg text-gray-700 mb-6 font-medium leading-relaxed">"عملولي متجر إلكتروني في أقل من 72 ساعة وربطولي الدفع. شغل سريع ومتقن، وبقيت ببيع أونلاين من غير أي تعقيدات تقنية."</p>
+                        <div class="flex items-center">
+                            <svg class="w-12 h-12 rounded-full mr-4 rtl:ml-4 rtl:mr-0 object-cover" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="50" fill="#A7F3D0" />
+                                <path d="M50 62.5C61.0457 62.5 70 53.5457 70 42.5C70 31.4543 61.0457 22.5 50 22.5C38.9543 22.5 30 31.4543 30 42.5C30 53.5457 38.9543 62.5 50 62.5Z" fill="#34D399" />
+                                <path d="M77.5 100C77.5 86.4919 65.1878 75.5 50 75.5C34.8122 75.5 22.5 86.4919 22.5 100H77.5Z" fill="#34D399" />
+                            </svg>
+                            <div>
+                                <h4 class="font-bold text-gray-900">محمد علي</h4>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">عميل موثق</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- رأي 3 -->
+                    <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000" class="tilt-card testimonial-card bg-gray-50 p-8 rounded-2xl shadow-lg">
+                        <svg class="w-12 h-12 text-blue-100 mb-4" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M448 294.2v171.8H276.2v-171.8H448zM0 294.2v171.8h171.8V294.2H0zM242.5 0c-33.3 0-63.3 11.1-88.3 33.2S111 81.1 111 114.3v96.4H0V466h215.2V210.7H111V114.3c0-22.3 7.4-42.3 22.2-59.9S169.5 33.2 192 33.2h50.5V0zM448 0v210.7H336.8V114.3c0-22.3 7.4-42.3 22.2-59.9s34.8-21.2 57-21.2H448z"></path></svg>
+                        <p class="text-lg text-gray-700 mb-6 font-medium leading-relaxed">"أحسن حاجة إنهم بيفهموا إنت عايز إيه وبيعملوه زي ما الكتاب بيقول. طلبت تعديلات أكتر من مرة وكانوا في منتهى الذوق والاحترافية."</p>
+                        <div class="flex items-center">
+                             <svg class="w-12 h-12 rounded-full mr-4 rtl:ml-4 rtl:mr-0 object-cover" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="50" fill="#FDE68A" />
+                                <path d="M50 62.5C61.0457 62.5 70 53.5457 70 42.5C70 31.4543 61.0457 22.5 50 22.5C38.9543 22.5 30 31.4543 30 42.5C30 53.5457 38.9543 62.5 50 62.5Z" fill="#FBBF24" />
+                                <path d="M77.5 100C77.5 86.4919 65.1878 75.5 50 75.5C34.8122 75.5 22.5 86.4919 22.5 100H77.5Z" fill="#FBBF24" />
+                            </svg>
+                            <div>
+                                <h4 class="font-bold text-gray-900">فاطمة حسن</h4>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">عميل موثق</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 12: الأسئلة الشائعة (FAQ) - تعديل: خلفية أورورا ========= -->
+        <section id="faq" class="py-16 md:py-24 bg-blue-50 aurora-bg">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-12">
+                    <span class="text-sm font-bold text-blue-600 uppercase">لسه محتار؟</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 my-4 title-line-height">أسئلة شائعة بنسمعها دايماً</h2>
+                </div>
+
+
+                <div class="space-y-4">
+                    <!-- سؤال 1 -->
+                    <details class="faq-item fade-in-item stagger-item-1">
+                        <summary>
+                            <span class="faq-question">إيه الفرق بين ده وبين إني أعمل موقع عادي؟</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
+                        <p class="faq-answer leading-relaxed">الفرق هو التكلفة والمخاطرة. الموقع العادي بتدفع فيه مبلغ كبير مرة واحدة (آلاف الجنيهات)، ولو احتجت أي تعديل أو حصلت مشكلة بتدفع تاني. نظام الاشتراك بتاعنا بيخليك تبدأ بأقل تكلفة شهرية (زي فاتورة النت) وشاملة الدعم الفني والصيانة، يعني راحة بال تامة ومخاطرة صفر.</p>
+                    </details>
+                    <!-- سؤال 2 -->
+                    <details class="faq-item fade-in-item stagger-item-2">
+                        <summary>
+                            <span class="faq-question">هو الموقع بيكون ملكي لو وقفت الاشتراك؟</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
+                        <p class="faq-answer leading-relaxed">دي "خدمة" مش "منتج". زي اشتراك Netflix أو باقة الموبايل، إنت بتدفع مقابل استمرار الخدمة (الموقع + الاستضافة + الدعم). لو قررت توقف الاشتراك، الخدمة بتقف. ده اللي بيسمحلنا نقدمهالك بالسعر البسيط ده بدل ما ندفعك 50 ألف جنيه مرة واحدة.</p>
+                    </details>
+                    <!-- سؤال 3 -->
+                    <details class="faq-item fade-in-item stagger-item-3">
+                        <summary>
+                            <span class="faq-question">أنا عندي دومين (www.mycompany.com) ينفع أربطه؟</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
+                        <p class="faq-answer leading-relaxed">طبعاً! إحنا بنربط الدومين بتاعك بالخدمة بتاعتنا مجاناً. ولو معندكش دومين، بنساعدك تشتري واحد باسم شركتك بكل سهولة.</p>
+                    </details>
+                    <!-- سؤال 4 -->
+                    <details class="faq-item fade-in-item stagger-item-4">
+                        <summary>
+                            <span class="faq-question">إيه المقصود بـ "مدة التسليم 48 ساعة"؟</span>
+                            <span class="faq-icon">+</span>
+                        </summary>
+                        <p class="faq-answer leading-relaxed">معناها إن موقعك بيكون جاهز ومنطلق أونلاين في خلال 48 ساعة "من لحظة استلامنا لكل المحتوى منك" (اللوجو، النصوص، صور المنتجات لو فيه، إلخ). كل ما تسلمنا حاجتك أسرع، كل ما موقعك ينطلق أسرع.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- ========= القسم 13: الـ CTA الأخير ========= -->
+        <section class="py-16 md:py-24 bg-gray-900 text-white textured-bg">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 title-line-height">جاهز تنطلق؟</h2>
+                <p class="text-lg text-gray-300 max-w-xl mx-auto mb-10 leading-relaxed">اختار الطريقة اللي تريحك، وخلينا نبدأ نحول فكرتك لواقع احترافي النهارده.</p>
+                
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6 md:space-x-reverse">
+                    <!-- شراء فوري -->
+                    <a href="#buy-medium" class="cta-base cta-primary text-lg w-full md:w-auto cta-buy open-in-popup" data-url="https://example.com/buy-medium" data-title="شراء باكدج النمو (الأكثر شيوعاً)">
+                        💳 اشتري دلوقتي (الأكثر شيوعاً)
+                        <span class="arrow-icon">&larr;</span>
+                    </a>
+                    <!-- تسجيل ودفع لاحق -->
+                    <a href="#register-later" class="cta-base cta-ghost text-lg w-full md:w-auto open-in-popup" data-url="https://example.com/register" data-title="تسجيل والدفع لاحقاً">
+                        📱 سجل وادفع بعدين
+                    </a>
+                </div>
+                <!-- مساعدة -->
+                <a href="#help" class="cta-base cta-text mt-6 text-gray-400 open-in-popup" data-url="https://example.com/help-form" data-title="اطلب مساعدة">
+                    🤔 محتاج مساعدة أو عندك سؤال؟
+                </a>
+
+
+                <div class="mt-8 text-sm text-gray-500">
+                    <p>🔒 كل المعاملات آمنة ومشفرة 100%.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+
+    <!-- ========= القسم 14: الفوتر (Footer) ========= -->
+    <footer class="bg-gray-800 text-gray-400 py-12 textured-bg">
+        <div class="container mx-auto px-6 text-center">
+            
+            <!-- التواصل السريع (واتساب والسوشيال) -->
+            <div class="mb-8">
+                <h4 class="text-lg font-bold text-white mb-4">لسه محتار؟ كلمنا دلوقتي</h4>
+                <div class="flex justify-center space-x-6 space-x-reverse">
+                    <!-- (تعديل) إضافة كلاس الأيقونة المغناطيسية -->
+                    <a href="https://wa.me/20100000000" target="_blank" class="magnetic-icon text-gray-400 hover:text-green-500 transition-colors duration-300">
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.598-3.825-1.597-5.948 0-5.418 4.39-9.808 9.807-9.808 5.418 0 9.808 4.39 9.808 9.808 0 5.418-4.39 9.808-9.808 9.808-1.99 0-3.833-.57-5.38-1.604L.057 24zM9.808 3.63c4.512 0 8.183 3.67 8.183 8.182 0 4.512-3.67 8.182-8.183 8.182-1.63 0-3.15-.48-4.42-1.31L2.94 19.33l1.39-4.02c-.87-1.3-.9-2.92-.9-4.48 0-4.512 3.67-8.182 8.183-8.182zm5.64 10.38c-.07-.12-.27-.2-.43-.34-.64-.31-3.68-1.82-4.25-2.02-.57-.2-.98-.31-1.39.31-.41.62-1.61 1.9-1.98 2.3-.37.4-.73.45-1.33.15-.6-.3-2.55-1.03-4.66-2.9-1.64-1.45-2.76-3.23-3.09-3.82-.33-.6-.03-.92.27-1.21.28-.28.6-.36.9-.5.28-.13.43-.31.64-.51.2-.2.31-.42.45-.69.14-.27.07-.52-.08-.79-.15-.27-.98-2.38-1.35-3.26-.36-.87-.73-1.03-1.09-1.03-.33 0-.7.15-.98.15-.28 0-.7.15-1.05.42s-1.39 1.35-1.39 3.3 1.39 6.04 1.59 6.45c.2.4 2.81 4.52 6.9 6.57 3.86 1.93 4.98 1.52 6.24.91.98-.48 1.9-1.35 2.17-2.57.27-1.22.27-2.25.19-2.47z"></path></svg>
+                    </a>
+                    <!-- (تعديل) إضافة كلاس الأيقونة المغناطيسية -->
+                    <a href="https://facebook.com/yourpage" target="_blank" class="magnetic-icon text-gray-400 hover:text-blue-600 transition-colors duration-300">
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"></path></svg>
+                    </a>
+                    <!-- (تعديل) إضافة كلاس الأيقونة المغناطيسية -->
+                    <a href="https://instagram.com/yourpage" target="_blank" class="magnetic-icon text-gray-400 hover:text-pink-500 transition-colors duration-300">
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.053 1.905.28 2.58.55C20.56 3.26 21.1 3.72 21.48 4.4c.37.67.6 1.41.65 2.58.06 1.26.07 1.64.07 4.85s-.01 3.59-.07 4.85c-.05 1.17-.28 1.905-.55 2.58-.48.88-1.02 1.42-1.9 1.9-.67.37-1.41.6-2.58.65-1.26.06-1.64.07-4.85.07s-3.59-.01-4.85-.07c-1.17-.05-1.905-.28-2.58-.55C3.44 20.74 2.9 20.2 2.52 19.32c-.37-.67-.6-1.41-.65-2.58-.06-1.26-.07-1.64-.07-4.85s.01-3.59.07-4.85c.05-1.17.28-1.905.55-2.58.48-.88 1.02 1.42-1.9-1.9.67-.37 1.41-.6 2.58.65 1.26-.06 1.64.07 4.85-.07M12 4.135c-3.14 0-3.47.012-4.69.068-1.08.05-1.68.27-2.18.48-.56.23-.9.49-1.28.87-.38.38-.64.72-.87 1.28-.21.5-.43 1.1-.48 2.18C4.14 8.53 4.13 8.86 4.13 12s.01 3.47.068 4.69c.05 1.08.27 1.68.48 2.18.23.56.49.9.87 1.28.38.38.72.64 1.28.87.5.21 1.1.43 2.18.48 1.22.056 1.55.068 4.69.068 3.14 0 3.47-.012 4.69-.068 1.08-.05 1.68-.27 2.18-.48.56-.23.9-.49 1.28.87.38-.38-.64.72.87 1.28.21-.5.43-1.1.48-2.18.056-1.22.068-1.55.068-4.69s-.012-3.47-.068-4.69c-.05-1.08-.27-1.68-.48-2.18-.23-.56-.49-.9-.87-1.28-.38-.38-.72-.64-1.28-.87-.5-.21-1.1-.43-2.18-.48-1.22-.056-1.55-.068-4.69-.068M12 9.177c-1.552 0-2.823 1.27-2.823 2.823s1.27 2.823 2.823 2.823 2.823-1.27 2.823 2.823S13.552 9.177 12 9.177zm0 4.647c-1.005 0-1.823-.818-1.823-1.823s.818-1.823 1.823-1.823 1.823.818 1.823 1.823-.818 1.823-1.823 1.823zm6.162-6.61c-.537 0-.97.433-.97.97s.433.97.97.97.97-.433.97-.97-.433-.97-.97-.97z"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="mt-8 pt-8 border-t border-gray-700">
+                <p class="text-sm">كل الحقوق محفوظة &copy; <span id="current-year">2024</span> - Awan ON</p>
+                <p class="text-sm mt-2">
+                    <a href="#privacy" class="hover:text-white">سياسة الخصوصية</a> | 
+                    <a href="#terms" class="hover:text-white">شروط الاستخدام</a>
+                </D>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    <!-- ========= البوب-آب (Popup/Modal) ========= -->
+    <div id="popup-modal" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 id="popup-title" class="text-gray-900">بنحمّل الصفحة...</h3>
+                <button id="popup-close" class="popup-close">&times;</button>
+            </div>
+            <div class="popup-body">
+                <!-- مؤشر التحميل -->
+                <div id="popup-loader" class="popup-loader"></div>
+                <!-- الـ iframe لتحميل المحتوى -->
+                <iframe id="popup-iframe" class="popup-iframe" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- ========= سكريبتات الـ JavaScript ========= -->
+    
+    <!-- مكتبة 3D Tilt Effect -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // --- كود شاشة التحميل (Preloader) ---
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        preloader.classList.add('preloader-hidden');
+                    }, 1000); // 1 ثانية
+                });
+            }
+
+
+            // --- (إضافة) كود مؤشر الماوس المخصص ---
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorOutline = document.getElementById('cursor-outline');
+            
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                
+                cursorDot.style.transform = `translate(${clientX}px, ${clientY}px) translate(-50%, -50%)`;
+                cursorOutline.style.transform = `translate(${clientX}px, ${clientY}px) translate(-50%, -50%)`;
+            });
+
+
+            const interactiveElements = document.querySelectorAll('a, button, summary, .cursor-pointer');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('cursor-hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('cursor-hover');
+                });
+            });
+
+
+
+
+            // --- كود الـ Mouse Parallax للهيرو ---
+            const heroHeader = document.getElementById('hero-header');
+            const heroBlobs = document.querySelectorAll('.hero-blob');
+            const heroContent = document.querySelector('.hero-content');
+            
+            if (heroHeader) {
+                heroHeader.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    const { offsetWidth, offsetHeight } = heroHeader;
+                    const xPos = (clientX / offsetWidth - 0.5) * 2; // -1 to 1
+                    const yPos = (clientY / offsetHeight - 0.5) * 2; // -1 to 1
+
+
+                    heroBlobs.forEach(blob => {
+                        const depth = blob.dataset.depth || 0.1;
+                        const moveX = -xPos * (depth * 50); // تقليل القوة
+                        const moveY = -yPos * (depth * 50);
+                        blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                    });
+
+
+                    if (heroContent) {
+                        const contentDepth = heroContent.dataset.depth || 0.05;
+                        const contentMoveX = -xPos * (contentDepth * 50);
+                        const contentMoveY = -yPos * (contentDepth * 50);
+                        heroContent.style.transform = `translate(${contentMoveX}px, ${contentMoveY}px)`;
+                    }
+                });
+            }
+
+
+
+
+            // --- تحديث السنة في الفوتر ---
+            const currentYearEl = document.getElementById("current-year");
+            if (currentYearEl) {
+                currentYearEl.textContent = new Date().getFullYear();
+            }
+
+
+            // --- كود البوب-آب (Popup) ---
+            const popupModal = document.getElementById("popup-modal");
+            const popupTitle = document.getElementById("popup-title");
+            const popupIframe = document.getElementById("popup-iframe");
+            const popupLoader = document.getElementById("popup-loader");
+            const popupCloseBtn = document.getElementById("popup-close");
+            const openPopupButtons = document.querySelectorAll(".open-in-popup");
+
+
+            function openPopup(url, title) {
+                if (!popupModal) return;
+                popupTitle.textContent = title;
+                popupIframe.src = "about:blank"; 
+                popupLoader.style.display = "block"; 
+                popupModal.classList.add("popup-visible");
+                
+                popupIframe.onload = function() {
+                    popupLoader.style.display = "none"; 
+                };
+                popupIframe.src = url; 
+            }
+
+
+            function closePopup() {
+                if (!popupModal) return;
+                popupModal.classList.remove("popup-visible");
+                popupIframe.src = "about:blank"; 
+                popupTitle.textContent = "بنحمّل الصفحة...";
+            }
+
+
+            openPopupButtons.forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const url = this.dataset.url;
+                    const title = this.dataset.title;
+                    openPopup(url, title);
+                });
+            });
+
+
+            if (popupCloseBtn) {
+                popupCloseBtn.addEventListener("click", closePopup);
+            }
+            if (popupModal) {
+                popupModal.addEventListener("click", function(e) {
+                    if (e.target === popupModal) {
+                        closePopup();
+                    }
+                });
+            }
+
+
+            // --- كود الأنيميشن (Fade In) عند السكرول ---
+            const items = document.querySelectorAll(".fade-in-item");
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.15 
+            };
+
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        
+                        // تفعيل رسم الخط (لأنه منفصل)
+                        if (entry.target.classList.contains('draw-path-container')) {
+                            const svgPath = entry.target.querySelector('.draw-path');
+                            if (svgPath) {
+                                svgPath.classList.add('is-visible');
+                            }
+                        }
+                        
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+
+            items.forEach(item => {
+                observer.observe(item);
+            });
+            
+            // مراقبة قسم رسم الخط بشكل منفصل (لأنه ليس item)
+            const pathContainer = document.querySelector('.draw-path-container');
+            if(pathContainer) {
+                observer.observe(pathContainer);
+            }
+
+
+            // --- كود عداد الأرقام (Counters) ---
+            const counters = document.querySelectorAll("[data-count]");
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = +el.dataset.count;
+                        let current = 0;
+                        const increment = target / 100; 
+                        
+                        const updateCount = () => {
+                            current += increment;
+                            if (current < target) {
+                                const suffix = el.querySelector("span") ? el.querySelector("span").outerHTML : "";
+                                el.innerHTML = Math.ceil(current) + suffix;
+                                requestAnimationFrame(updateCount);
+                            } else {
+                                const suffix = el.querySelector("span") ? el.querySelector("span").outerHTML : "";
+                                el.innerHTML = target + suffix;
+                            }
+                        };
+                        updateCount();
+                        observer.unobserve(el); 
+                    }
+                });
+            }, { threshold: 0.5 }); 
+
+
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
+            });
+
+
+            // --- كود الشريط الثابت (Sticky Nav) والزرار الذكي (Smart CTA) ---
+            const stickyNav = document.getElementById("sticky-nav");
+            const smartCta = document.getElementById("smart-sticky-cta");
+            const heroSection = document.querySelector("header");
+            const pricingSection = document.getElementById("pricing");
+
+
+            window.addEventListener("scroll", function() {
+                if (!stickyNav || !heroSection) return;
+
+
+                // إظهار/إخفاء الشريط الثابت
+                if (window.scrollY > heroSection.offsetHeight) {
+                    stickyNav.classList.add("visible");
+                } else {
+                    stickyNav.classList.remove("visible");
+                }
+
+
+                // تغيير الزرار الذكي
+                if (pricingSection && smartCta) {
+                    const pricingTop = pricingSection.offsetTop - 100; 
+                    
+                    if (window.scrollY > pricingTop) {
+                        // العميل عدّى الأسعار
+                        if (smartCta.href.includes("#pricing")) { 
+                            smartCta.textContent = "💳 اشتري الباقة الأكثر شيوعاً";
+                            smartCta.href = "#buy-medium"; 
+                            smartCta.classList.remove("cta-primary"); 
+                            smartCta.classList.add("cta-blue"); 
+                            smartCta.classList.add("open-in-popup"); 
+                            smartCta.dataset.url = "https://example.com/buy-medium";
+                            smartCta.dataset.title = "شراء باكدج النمو";
+                        }
+                    } else {
+                        // العميل لسه فوق الأسعار
+                        if (!smartCta.href.includes("#pricing")) { 
+                            smartCta.textContent = "ابدأ دلوقتي";
+                            smartCta.href = "#pricing"; 
+                            smartCta.classList.add("cta-primary"); 
+                            smartCta.classList.remove("cta-blue"); 
+                            smartCta.classList.remove("open-in-popup"); 
+                            delete smartCta.dataset.url;
+                            delete smartCta.dataset.title;
+                        }
+                    }
+                }
+            });
+
+
+            // --- كود تأثير 3D Tilt ---
+            const tiltElements = document.querySelectorAll('.tilt-card');
+            VanillaTilt.init(tiltElements, {
+                max: 5,
+                speed: 400,
+                perspective: 1000,
+                glare: true,
+                "max-glare": 0.1
+            });
+
+
+            // --- كود الأسئلة الشائعة (FAQ) ---
+            const allDetails = document.querySelectorAll('.faq-item');
+            allDetails.forEach(details => {
+                details.addEventListener('toggle', (event) => {
+                    if (details.open) {
+                        allDetails.forEach(d => {
+                            if (d !== details && d.open) {
+                                d.removeAttribute('open');
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            // --- (إضافة) كود الأيقونات المغناطيسية ---
+            const magneticIcons = document.querySelectorAll('.magnetic-icon');
+            magneticIcons.forEach(icon => {
+                icon.addEventListener('mousemove', (e) => {
+                    const rect = icon.getBoundingClientRect();
+                    const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
+                    const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+                    icon.style.transform = `translate(${x}px, ${y}px)`;
+                });
+                icon.addEventListener('mouseleave', () => {
+                    icon.style.transform = 'translate(0, 0)';
+                });
+            });
+
+
+        });
+    </script>
+
+
+</body>
+</html>
