@@ -12,6 +12,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* (تعديل v2) إضافة مساحة سفلية علشان الفوتر الجديد */
         body {
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
@@ -47,6 +48,84 @@
                 transform: translateY(-10px);
             }
         }
+
+        /* --- (إضافة v2) ستايل الفوتر الثابت (Sticky Footer) --- */
+        .sticky-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 9999;
+            padding: 1rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* (تعديل v4) تصميم Mobile-First للفوتر */
+        .footer-content-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* عمود واحد في الموبايل */
+            gap: 1rem;
+        }
+        
+        .footer-action-col,
+        .footer-contact-col {
+            text-align: center;
+        }
+
+        .payment-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem; /* 12px */
+            color: #6b7280;
+        }
+        
+        .payment-icons span {
+            background-color: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .footer-contact-links {
+            margin-top: 0.75rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* (تعديل v4) تطبيق التصميم على الشاشات الأكبر */
+        @media (min-width: 768px) {
+            .sticky-footer-bar {
+                padding: 1.5rem;
+            }
+            .footer-content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* عمودين في الديسكتوب */
+                align-items: center;
+                gap: 2rem;
+            }
+            .footer-action-col {
+                text-align: right; /* محاذاة لليمين */
+            }
+            .footer-contact-col {
+                text-align: right; /* محاذاة لليمين */
+                border-right: 1px solid #e5e7eb; /* خط فاصل */
+                padding-right: 2rem;
+            }
+            .payment-icons {
+                justify-content: flex-start;
+            }
+            .footer-contact-links {
+                justify-content: flex-start;
+            }
+        }
+
 
         /* --- (إضافة v2) ستايل البوب-آب (Popup/Modal) --- */
         .popup-overlay {
@@ -126,7 +205,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #f59e0b; /* برتقالي */
+            border-top: 5px solid #f59e0b; /* لون برتقالي */
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -159,21 +238,22 @@
                 </p>
             </div>
             
-            <!-- (تعديل v3) CTAs الرئيسية - تعديل لينك البوب آب -->
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-4">
-                <button
-                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-video"
-                    data-popup-title="خدمة فيديو موشن جرافيك"
-                    class="open-popup-button bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
-                    💳 اطلب وادفع دلوقتي
-                </button>
-                <a href="#pricing" class="bg-white hover:bg-gray-100 text-orange-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
-                    📱 شوف الباقات الأول
+                <a href="#pricing" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
+                    💳 شوف الأسعار واطلب دلوقتي
                 </a>
+                <!-- (تعديل v4) زرار البوب آب (اللينك العام للخدمة) -->
+                <button 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-video"
+                    data-popup-title="شراء خدمة موشن جرافيك"
+                    class="open-popup-button bg-white hover:bg-gray-100 text-orange-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
+                    📱 سجل وادفع بعدين
+                </button>
             </div>
             <div class="flex justify-center">
+                <!-- (تعديل v4) زرار البوب آب (اتصل بنا) -->
                 <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us" 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us"
                     data-popup-title="اتصل بنا"
                     class="open-popup-button bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition w-full md:w-auto">
                     🤔 محتاج مساعدة أو استشارة؟
@@ -182,88 +262,87 @@
         </div>
     </header>
 
-    <!-- (إضافة v2) Problem Section -->
+    <!-- (إضافة v2) قسم المشكلة -->
     <section class="py-20 px-6 bg-white">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
-                المشاكل اللي بتواجهك:
+                المشاكل اللي بتواجهك دلوقتي:
             </h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
-                    <div class="text-4xl mb-3">😴</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">المحتوى ممل</h3>
+                    <div class="text-4xl mb-3">🥱</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">المحتوى الثابت ممل</h3>
                     <p class="text-gray-700">الصور والبوستات العادية مبقتش تجذب الانتباه وسط الزحمة.</p>
                 </div>
                 <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
-                    <div class="text-4xl mb-3">💸</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">تكلفة عالية</h3>
-                    <p class="text-gray-700">إنتاج فيديو موشن مخصص بالكامل بيكلف آلاف الجنيهات.</p>
+                    <div class="text-4xl mb-3">🤯</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">الفيديو المخصص معقد</h3>
+                    <p class="text-gray-700">علشان تعمل فيديو مخصص محتاج تدفع آلاف وتستنى أسابيع.</p>
                 </div>
                 <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
-                    <div class="text-4xl mb-3">⏳</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">بياخد وقت طويل</h3>
-                    <p class="text-gray-700">الفيديوهات المخصصة ممكن تاخد أسابيع علشان تخلص.</p>
+                    <div class="text-4xl mb-3">💸</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">صعب تشرح فكرتك</h3>
+                    <p class="text-gray-700">الخدمة أو المنتج بتاعك محتاج شرح، والكتابة مش كفاية.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- (إضافة v2) Solution Section -->
+    <!-- (إضافة v2) قسم الحل -->
     <section class="py-20 px-6 bg-gradient-to-b from-gray-50 to-white">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-4 text-gray-800">
-                الحل بتاعنا: فيديوهات بقوالب احترافية! ✨
+                الحل عندنا: فيديو موشن جرافيك سريع واقتصادي! ✨
             </h2>
             <p class="text-center text-xl text-gray-600 mb-12">
-                بنستخدم قوالب عالمية احترافية ونعدلها علشان تناسب البراند بتاعك.
+                فيديوهات احترافية بتوصل فكرتك، جاهزة في 48 ساعة، وبسعر ميتفوتش.
             </p>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white border-r-4 border-green-500 p-6 rounded-lg shadow-md">
                     <div class="text-4xl mb-3">🚀</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">جودة عالية</h3>
-                    <p class="text-gray-700">هتاخد فيديو شكله احترافي زي الشركات الكبيرة.</p>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">جذب انتباه فوري</h3>
+                    <p class="text-gray-700">الفيديو بيخطف عين العميل وبيخليه يركز معاك.</p>
                 </div>
                 <div class="bg-white border-r-4 border-green-500 p-6 rounded-lg shadow-md">
-                    <div class="text-4xl mb-3">💰</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">سعر ممتاز</h3>
-                    <p class="text-gray-700">بنقدم أرخص سعر لخدمة الموشن جرافيك في مصر.</p>
+                    <div class="text-4xl mb-3">💡</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">شرح مبسط</h3>
+                    <p class="text-gray-700">تقدر تشرح أعقد الأفكار في 30 ثانية بشكل ممتع.</p>
                 </div>
                 <div class="bg-white border-r-4 border-green-500 p-6 rounded-lg shadow-md">
                     <div class="text-4xl mb-3">⚡</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">تسليم سريع</h3>
-                    <p class="text-gray-700">الفيديو بتاعك بيكون جاهز في خلال 48 لـ 72 ساعة بس.</p>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">سريع جداً</h3>
+                    <p class="text-gray-700">بنعتمد على قوالب احترافية جاهزة للتعديل، فبتستلم شغلك بسرعة.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- (إضافة v2) How It Works -->
+    <!-- (إضافة v2) قسم إزاي بنشتغل -->
     <section class="py-20 px-6 bg-orange-50">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
-                إزاي بنشتغل؟ 🎯
+                إزاي بنشتغل؟ (3 خطوات بس!) 🎯
             </h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center">
                     <div class="bg-orange-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">1</div>
                     <h3 class="text-xl font-bold mb-2">اختار الباقة</h3>
-                    <p class="text-gray-700 text-sm">حدد مدة الفيديو المناسبة ليك (سريع، متوسط، طويل).</p>
+                    <p class="text-gray-700">اختار مدة الفيديو (سريع، متوسط، طويل) من الجدول تحت.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-orange-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">2</div>
-                    <h3 class="text-xl font-bold mb-2">ابعت المحتوى</h3>
-                    <p class="text-gray-700 text-sm">ابعتلنا النصوص واللوجو والألوان بتاعة البراند بتاعك.</p>
+                    <h3 class="text-xl font-bold mb-2">ابعتهالنا</h3>
+                    <p class="text-gray-700">ابعتهالنا النصوص (Script) واللوجو والألوان بتاعة البراند.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-orange-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">3</div>
                     <h3 class="text-xl font-bold mb-2">استلم الفيديو</h3>
-                    <p class="text-gray-700 text-sm">في خلال 72 ساعة فيديو الموشن هيكون جاهز للنشر.</p>
+                    <p class="text-gray-700">في خلال 48-72 ساعة، الفيديو بتاعك هيكون جاهز للنشر.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
     <section id="pricing" class="py-20 px-6 bg-white">
         <div class="container mx-auto max-w-7xl">
             <h2 class="text-3xl md:text-5xl font-black text-center mb-4 text-gray-800">
@@ -315,10 +394,10 @@
                         </li>
                     </ul>
                     
-                    <!-- (تعديل v3) زرار البوب آب الأول -->
+                    <!-- (تعديل v4) زرار البوب آب (لينك باقة Mini) -->
                     <button 
                         data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-mini"
-                        data-popup-title="شراء باقة الفيديو السريع"
+                        data-popup-title="شراء فيديو سريع (349)"
                         class="open-popup-button block bg-orange-600 hover:bg-orange-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
                         اطلب دلوقتي 💳
                     </button>
@@ -372,10 +451,10 @@
                         </li>
                     </ul>
                     
-                    <!-- (تعديل v3) زرار البوب آب الثاني -->
+                    <!-- (تعديل v4) زرار البوب آب (لينك باقة Medium) -->
                     <button 
                         data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-medium"
-                        data-popup-title="شراء باقة الفيديو المتوسط"
+                        data-popup-title="شراء فيديو متوسط (749)"
                         class="open-popup-button block bg-green-500 hover:bg-green-600 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full shadow-lg">
                         اطلب دلوقتي 💳
                     </button>
@@ -429,10 +508,10 @@
                         </li>
                     </ul>
                     
-                    <!-- (تعديل v3) زرار البوب آب الثالث -->
+                    <!-- (تعديل v4) زرار البوب آب (لينك باقة Big) -->
                     <button 
                         data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-big"
-                        data-popup-title="شراء باقة الفيديو الطويل"
+                        data-popup-title="شراء فيديو طويل (999)"
                         class="open-popup-button block bg-orange-600 hover:bg-orange-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
                         اطلب دلوقتي 💳
                     </button>
@@ -442,175 +521,160 @@
         </div>
     </section>
 
-    <!-- (إضافة v2) Testimonials -->
+    <!-- (إضافة v2) قسم آراء العملاء -->
     <section class="py-20 px-6 bg-gray-50">
         <div class="container mx-auto max-w-6xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
                 بشهادة عملائنا 💬
             </h2>
-            
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">
-                            👨‍💼
-                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">🛍️</div>
                         <div>
-                            <h4 class="font-bold">يوسف أحمد</h4>
-                            <p class="text-sm text-gray-600">مسوق إلكتروني</p>
+                            <h4 class="font-bold">نورهان عادل</h4>
+                            <p class="text-sm text-gray-600">صاحبة متجر أونلاين</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">
-                        "كنت محتاج فيديو لإعلان ضروري. طلبت (الفيديو السريع) واستلمته في نفس اليوم تقريباً. جودة ممتازة وسعر ملوش حل."
-                    </p>
+                    <p class="text-gray-700 leading-relaxed">"الفيديو السريع للريلز كان تحفة! جابلي تفاعل أكتر بكتير من الصور العادية. شغل سريع وممتاز."</p>
                 </div>
-                
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">
-                            👩‍💼
-                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">📱</div>
                         <div>
-                            <h4 class="font-bold">هالة إبراهيم</h4>
-                            <p class="text-sm text-gray-600">صاحبة براند أزياء</p>
+                            <h4 class="font-bold">كريم سامي</h4>
+                            <p class="text-sm text-gray-600">مسئول تسويق</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">
-                        "عملت فيديو متوسط المدة لعرض الكولكشن الجديد. الفيديو طلع شكله فخم جداً والتعديلات اتعملت بالظبط زي ما طلبت."
-                    </p>
+                    <p class="text-gray-700 leading-relaxed">"طلبت الفيديو المتوسط لشرح الخدمة بتاعتنا. بصراحة، وفروا عليا وقت ومجهود كبير، والنتيجة طلعت احترافية والتعليق الصوتي واضح."</p>
                 </div>
-                
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">
-                            👨‍💻
-                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl">🏢</div>
                         <div>
-                            <h4 class="font-bold">محمد جابر</h4>
-                            <p class="text-sm text-gray-600">شركة برمجيات</p>
+                            <h4 class="font-bold">طارق مصطفى</h4>
+                            <p class="text-sm text-gray-600">مدير شركة</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">
-                        "عملنا فيديو طويل لتعريف الشركة. التعليق الصوتي كان احترافي جداً والفيديو ساعدنا كتير في شرح خدماتنا."
-                    </p>
+                    <p class="text-gray-700 leading-relaxed">"عملنا الفيديو الطويل كفيديو تعريفي للشركة. الجودة ممتازة والسعر لا يقارن. خدمة 10/10."</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- (إضافة v2) FAQ -->
+    <!-- (إضافة v2) قسم الأسئلة الشائعة -->
     <section class="py-20 px-6 bg-white">
         <div class="container mx-auto max-w-4xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
                 أسئلة شائعة ❓
             </h2>
-            
             <div class="space-y-4">
                 <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
                     <summary class="font-bold text-lg text-gray-800">إيه الفرق بين القالب والفيديو المخصص؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
-                        الفيديو المخصص بيتعمل من الصفر مخصوص ليك وده بيكلف آلاف. نظام القوالب معناه إننا بنستخدم تصميم احترافي جاهز، ونعدل فيه (الألوان، النصوص، اللوجو) علشان يناسبك. ده بيديك 90% من جودة المخصص بـ 10% من السعر.
+                        الفيديو المخصص بيتعمل من الصفر ليك إنت، وده بياخد أسابيع وتكلفته آلاف. خدماتنا بتعتمد على "قوالب" احترافية جاهزة، إحنا بنعدلها (بنغير النصوص، الألوان، اللوجو) علشان تناسبك. ده بيديك 80% من جودة المخصص بـ 10% بس من السعر والوقت.
                     </p>
                 </details>
-                
                 <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
-                    <summary class="font-bold text-lg text-gray-800">هل أقدر أعدل على الفيديو بعد ما يخلص؟</summary>
+                    <summary class="font-bold text-lg text-gray-800">إيه المطلوب مني علشان أطلب فيديو؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
-                        طبعاً. ليك جولة تعديلات مجانية واحدة (One Revision) علشان تظبط أي نصوص أو ألوان. التعديلات الكبيرة في المشاهد أو التعليق الصوتي ممكن يكون ليها تكلفة إضافية بسيطة.
+                        كل اللي محتاجينه منك هو "الاسكريبت" (النصوص اللي هتظهر أو تتقال في الفيديو)، واللوجو بتاعك، ولو ليك ألوان معينة عايز تستخدمها. فريقنا هيعمل الباقي كله.
                     </p>
                 </details>
-
                 <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
-                    <summary class="font-bold text-lg text-gray-800">إيه هو (تعديل شبه مخصص للمشاهد)؟</summary>
+                    <summary class="font-bold text-lg text-gray-800">أقدر أعدل على الفيديو بعد ما يخلص؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
-                        ده في الباقة الكبيرة بس. معناه إننا مش بس بنغير النصوص والألوان، لأ ممكن كمان نغير ترتيب بعض المشاهد أو نضيف أيقونات خاصة بمجالك علشان الفيديو يطلع "بتاعك" أكتر.
+                        طبعاً. بيكون ليك جولة تعديلات مجانية (تعديل نصوص، ألوان، أو لو فيه أي غلطة). التعديلات الكبيرة (زي تغيير القالب كله أو الاسكريبت) ممكن يكون ليها تكلفة إضافية بسيطة.
                     </p>
                 </details>
             </div>
         </div>
     </section>
 
+    <!-- (تعديل v2) الفوتر الثابت الجديد - لوحة التحكم -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 border-t border-gray-200 z-50">
+        <div class="container mx-auto max-w-6xl">
+            <!-- 
+              التصميم للموبايل (Mobile-First): قسمين فوق بعض
+              التصميم للديسكتوب (md:): قسمين جنب بعض
+            -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0 md:space-x-8 rtl:md:space-x-reverse">
 
-    <!-- (إضافة v2) البوب-آب (Popup/Modal) -->
+                <!-- القسم اليمين: التواصل (هيجي تحت في الموبايل) -->
+                <div class="md:order-1 text-center md:text-right">
+                    <h4 class="text-lg font-bold text-gray-800">محتاج مساعدة؟</h4>
+                    <p class="text-sm text-gray-600 mb-2">فريقنا جاهز يرد على كل أسئلتك.</p>
+                    <div class="flex flex-col sm:flex-row gap-2 justify-center md:justify-start">
+                        <!-- (تعديل v4) زرار البوب آب (اتصل بنا) -->
+                        <button 
+                            data-popup-url="https://awanon.wuiltstore.com/ar/contact-us"
+                            data-popup-title="اتصل بنا"
+                            class="open-popup-button w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition">
+                            💬 اتواصل معانا
+                        </button>
+                        <!-- (تعديل v4) لينك واتساب بالرقم الصح -->
+                        <a href="https://wa.me/201101234798" target="_blank" class="w-full sm:w-auto bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition">
+                            أو كلمنا واتساب
+                        </a>
+                    </div>
+                    <!-- (تعديل v4) إضافة لينك "من نحن" -->
+                    <div class="mt-2 text-center md:text-right">
+                        <button 
+                            data-popup-url="https://awanon.wuiltstore.com/ar/page/about-us"
+                            data-popup-title="عن Awan ON"
+                            class="open-popup-button text-sm text-gray-500 hover:text-orange-600 underline">
+                            اعرف أكتر عننا
+                        </button>
+                    </div>
+                </div>
+
+                <!-- القسم الشمال: الدفع (هيجي فوق في الموبايل) -->
+                <div class="md:order-2 text-center md:text-right">
+                    <h4 class="text-lg font-bold text-gray-800">جاهز تطلب الفيديو بتاعك؟</h4>
+                    <p class="text-sm text-gray-600 mb-2">اختار الباقة المناسبة واطلبها النهاردة.</p>
+                    <!-- (تعديل v4) زرار البوب آب (اللينك العام للخدمة) -->
+                    <button 
+                        data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-video"
+                        data-popup-title="شراء خدمة موشن جرافيك"
+                        class="open-popup-button w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition text-lg">
+                        🚀 اطلب فيديو
+                    </button>
+                    <p class="text-xs text-gray-500 mt-2">
+                        بنقبل: فيزا، ماستركارد، ميزة، فودافون كاش، انستا باي
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- (إضافة v2) البوب-آب HTML -->
     <div id="popup-modal" class="popup-overlay">
         <div class="popup-content">
             <div class="popup-header">
-                <h3 id="popup-title" class="text-gray-900">بنحمّل الصفحة...</h3>
+                <h3 id="popup-title" class="text-gray-900">تحميل...</h3>
                 <button id="popup-close" class="popup-close">&times;</button>
             </div>
             <div class="popup-body">
-                <!-- مؤشر التحميل -->
                 <div id="popup-loader" class="popup-loader"></div>
-                <!-- الـ iframe لتحميل المحتوى -->
-                <iframe id="popup-iframe" class="popup-iframe" src="about:blank" title="Popup Content"></iframe>
+                <iframe id="popup-iframe" class="popup-iframe" src="about:blank"></iframe>
             </div>
-        </div>
-    </div>
-
-
-    <!-- (تعديل v2) الفوتر الثابت (Sticky Footer) - لوحة التحكم -->
-    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 z-50 w-full bg-white/95 p-4 backdrop-blur-sm border-t border-gray-200 shadow-t-2xl">
-        <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4">
-            
-            <!-- === قسم الدفع (الأساسي) === -->
-            <div class="flex-1 w-full md:w-auto">
-                <!-- (تعديل v3) الزرار ده هيفتح بوب آب لصفحة الخدمة العامة -->
-                <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/motion-graphic-video"
-                    data-popup-title="خدمة فيديو موشن جرافيك"
-                    class="open-popup-button w-full text-center px-6 py-3 bg-green-500 border-2 border-green-500 text-white rounded-lg font-bold shadow-lg transition hover:bg-green-600 text-lg">
-                    🚀 اطلب فيديو
-                </button>
-                <!-- طرق الدفع -->
-                <div class="text-center text-xs text-gray-500 mt-2">
-                    متاح: فيزا - ماستركارد - ميزة - فودافون كاش - انستا باي
-                </div>
-            </div>
-
-            <!-- === قسم التواصل (الثانوي) === -->
-            <div class="flex-1 w-full md:w-auto">
-                <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us" 
-                    data-popup-title="اتصل بنا"
-                    class="open-popup-button w-full text-center px-6 py-3 bg-gray-100 border-2 border-gray-300 text-gray-800 rounded-lg font-bold transition hover:bg-gray-200 text-lg">
-                    💬 اتواصل معانا
-                </button>
-                <!-- بيانات التواصل -->
-                <div class="text-center text-xs text-gray-500 mt-2">
-                    <a href="https://wa.me/201101234798" target="_blank" class="hover:text-black">واتساب: 01101234798</a>
-                </div>
-            </div>
-
         </div>
     </div>
 
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            
-            // Fade in animation on scroll (from v2)
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
 
-            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
-
-            // Smooth scroll for anchor links (from v1)
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
 
-            // --- (إضافة v2) كود البوب-آب (Popup) ---
+            // --- (إضافة v2) سكريبت البوب-آب (Popup) ---
             const popupModal = document.getElementById("popup-modal");
             const popupTitle = document.getElementById("popup-title");
             const popupIframe = document.getElementById("popup-iframe");
@@ -620,41 +684,30 @@
 
             function openPopup(url, title) {
                 if (!popupModal) return;
-                
-                // التأكد من أن العنوان نص
-                popupTitle.textContent = title || "تحميل...";
-                popupIframe.src = "about:blank"; // إفراغ الـ iframe أولاً
-                popupLoader.style.display = "block"; // إظهار مؤشر التحميل
+                popupTitle.textContent = title;
+                popupIframe.src = "about:blank"; // افرغ الـ iframe الأول
+                popupLoader.style.display = "block"; // أظهر اللودر
                 popupModal.classList.add("popup-visible");
                 
-                // تأخير بسيط قبل تحميل الـ URL لتجنب مشاكل الـ cache
-                setTimeout(() => {
-                    popupIframe.src = url; 
-                }, 50);
-
-                // إخفاء مؤشر التحميل عند اكتمال التحميل
                 popupIframe.onload = function() {
-                    popupLoader.style.display = "none"; 
+                    popupLoader.style.display = "none"; // اخفي اللودر لما التحميل يخلص
                 };
+                popupIframe.src = url; // حمّل اللينك
             }
 
             function closePopup() {
                 if (!popupModal) return;
                 popupModal.classList.remove("popup-visible");
-                popupIframe.src = "about:blank"; // إفراغ الـ iframe عند الإغلاق
-                popupTitle.textContent = "بنحمّل الصفحة...";
+                popupIframe.src = "about:blank"; // وقف أي تحميل
+                popupTitle.textContent = "تحميل...";
             }
 
             openPopupButtons.forEach(button => {
                 button.addEventListener("click", function(e) {
                     e.preventDefault();
                     const url = this.dataset.popupUrl;
-                    const title = this.dataset.popupTitle;
-                    if (url) {
-                        openPopup(url, title);
-                    } else {
-                        console.error("Popup URL not set for this button.");
-                    }
+                    const title = this.dataset.popupTitle || "تفاصيل الخدمة";
+                    openPopup(url, title);
                 });
             });
 
@@ -662,17 +715,14 @@
                 popupCloseBtn.addEventListener("click", closePopup);
             }
             if (popupModal) {
-                // إغلاق البوب آب عند الضغط على الخلفية
                 popupModal.addEventListener("click", function(e) {
+                    // اقفل البوب آب لو دوست بره المحتوى
                     if (e.target === popupModal) {
                         closePopup();
                     }
                 });
             }
-            // --- نهاية كود البوب-آب ---
-
         });
     </script>
 </body>
 </html>
-
