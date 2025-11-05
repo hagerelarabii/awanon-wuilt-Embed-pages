@@ -12,6 +12,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* (تعديل v2) إضافة مساحة سفلية علشان الفوتر الجديد */
         body {
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
@@ -27,6 +28,7 @@
         }
         
         .animated-gradient {
+            /* (تعديل) تغيير اللون للبنفسجي الخاص بالإعلانات */
             background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #8b5cf6 100%);
             background-size: 200% 200%;
             animation: gradient-shift 15s ease infinite;
@@ -35,6 +37,17 @@
         @keyframes gradient-shift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .pricing-card {
@@ -50,7 +63,7 @@
             border: 3px solid #fbbf24;
             transform: scale(1.05);
         }
-
+        
         @media (max-width: 768px) {
             .most-popular {
                 transform: scale(1);
@@ -59,6 +72,84 @@
                 transform: translateY(-10px);
             }
         }
+
+        /* --- (إضافة v2) ستايل الفوتر الثابت (Sticky Footer) --- */
+        .sticky-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 9999;
+            padding: 1rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* (تعديل v4) تصميم Mobile-First للفوتر */
+        .footer-content-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* عمود واحد في الموبايل */
+            gap: 1rem;
+        }
+        
+        .footer-action-col,
+        .footer-contact-col {
+            text-align: center;
+        }
+
+        .payment-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem; /* 12px */
+            color: #6b7280;
+        }
+        
+        .payment-icons span {
+            background-color: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .footer-contact-links {
+            margin-top: 0.75rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* (تعديل v4) تطبيق التصميم على الشاشات الأكبر */
+        @media (min-width: 768px) {
+            .sticky-footer-bar {
+                padding: 1.5rem;
+            }
+            .footer-content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* عمودين في الديسكتوب */
+                align-items: center;
+                gap: 2rem;
+            }
+            .footer-action-col {
+                text-align: right; /* محاذاة لليمين */
+            }
+            .footer-contact-col {
+                text-align: right; /* محاذاة لليمين */
+                border-right: 1px solid #e5e7eb; /* خط فاصل */
+                padding-right: 2rem;
+            }
+            .payment-icons {
+                justify-content: flex-start;
+            }
+            .footer-contact-links {
+                justify-content: flex-start;
+            }
+        }
+
 
         /* --- (إضافة v2) ستايل البوب-آب (Popup/Modal) --- */
         .popup-overlay {
@@ -138,7 +229,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #8b5cf6; /* بنفسجي */
+            border-top: 5px solid #8b5cf6; /* لون بنفسجي */
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -175,21 +266,22 @@
                 </p>
             </div>
             
-            <!-- (تعديل v3) CTAs الرئيسية - تعديل لينك البوب آب -->
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-4">
-                <button
-                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/daily-sponsored-ads" 
-                    data-popup-title="خدمة الإعلان الممول الشامل"
-                    class="open-popup-button bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
-                    💳 اشترك وادفع دلوقتي
-                </button>
-                <a href="#pricing" class="bg-white hover:bg-gray-100 text-purple-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
-                    📱 شوف الباقات الأول
+                <a href="#pricing" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
+                    💳 شوف الباقات واشتري دلوقتي
                 </a>
+                <!-- (تعديل v4) زرار البوب آب (اللينك العام للخدمة) -->
+                <button 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/daily-sponsored-ads"
+                    data-popup-title="شراء خدمة إعلان ممول"
+                    class="open-popup-button bg-white hover:bg-gray-100 text-purple-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition w-full md:w-auto">
+                    📱 سجل وادفع بعدين
+                </button>
             </div>
             <div class="flex justify-center">
+                <!-- (تعديل v4) زرار البوب آب (اتصل بنا) -->
                 <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us" 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us"
                     data-popup-title="اتصل بنا"
                     class="open-popup-button bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition w-full md:w-auto">
                     🤔 محتاج مساعدة أو استشارة؟
@@ -198,97 +290,82 @@
         </div>
     </header>
 
-    <!-- Problem Section -->
+    <!-- (إضافة v2) قسم المشكلة -->
     <section class="py-20 px-6 bg-white">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
-                المشاكل اللي بتواجهها مع الإعلانات:
+                المشاكل اللي بتواجهك دلوقتي:
             </h2>
-            
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
-                    <div class="text-4xl mb-3">😵</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">معقدة ومش واضحة</h3>
-                    <p class="text-gray-700">مش فاهم الميزانية بتروح فين وإيه اللي بيتدفع بالظبط</p>
-                </div>
-                
-                <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
                     <div class="text-4xl mb-3">💸</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">فلوس بتضيع</h3>
-                    <p class="text-gray-700">بتدفع على الإدارة + التصميم + الإعلان بشكل منفصل وبتكلفة عالية</p>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">فلوس بتترمي</h3>
+                    <p class="text-gray-700">بتعمل "Boost Post" ومش بيجيلك غير لايكات، لكن مفيش رسايل ولا مبيعات.</p>
                 </div>
-                
                 <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
-                    <div class="text-4xl mb-3">📉</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">مفيش نتايج واضحة</h3>
-                    <p class="text-gray-700">محدش بيعطيك تقارير واضحة أو بيقولك عدد العملاء اللي وصلوك</p>
+                    <div class="text-4xl mb-3">😵</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">تايه ومش فاهم</h3>
+                    <p class="text-gray-700">الـ Ads Manager معقد، والمصطلحات (Reach, CTR, CPC) مش مفهومة.</p>
+                </div>
+                <div class="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
+                    <div class="text-4xl mb-3">🎨</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">تصميمات ضعيفة</h3>
+                    <p class="text-gray-700">تصميم الإعلان مش بيجذب العميل، والفلوس بتروح على إعلان محدش بيبص عليه.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Solution Section -->
+    <!-- (إضافة v2) قسم الحل -->
     <section class="py-20 px-6 bg-gradient-to-b from-gray-50 to-white">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-4 text-gray-800">
-                الحل بتاعنا: باقات إعلانية شاملة! 🚀
+                الحل عندنا: باقة إعلان شاملة بسعر يومي واضح! ✨
             </h2>
             <p class="text-center text-xl text-gray-600 mb-12">
-                كل حاجة في سعر واحد - ميزانية + تصميم + إدارة + تقارير
+                إحنا بنشيل عنك كل الصداع. السعر شامل (الميزانية + الإدارة + التصميم + التقرير).
             </p>
-            
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white border-r-4 border-green-500 p-6 rounded-lg shadow-md">
-                    <div class="text-4xl mb-3">💰</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">شفافية كاملة</h3>
-                    <p class="text-gray-700">سعر واحد شامل كل حاجة - عارف بتدفع إيه بالظبط</p>
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">استهداف دقيق</h3>
+                    <p class="text-gray-700">بنحدد جمهورك الصح اللي هيشتري منك، مش مجرد لايكات.</p>
                 </div>
-                
                 <div class="bg-white border-r-4 border-green-500 p-6 rounded-lg shadow-md">
                     <div class="text-4xl mb-3">🎨</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">تصميمات احترافية</h3>
-                    <p class="text-gray-700">فريقنا هيصمملك الإعلانات ويكتب المحتوى</p>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">تصميم + كتابة</h3>
+                    <p class="text-gray-700">بنعملك تصميم الإعلان ونكتب المحتوى اللي يجيب نتيجة.</p>
                 </div>
-                
                 <div class="bg-white border-r-4 border-green-500 p-6 rounded-lg shadow-md">
                     <div class="text-4xl mb-3">📊</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">تقارير يومية</h3>
-                    <p class="text-gray-700">هتعرف عدد الناس اللي شافوا إعلانك والنتائج بالتفصيل</p>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">تقارير واضحة</h3>
+                    <p class="text-gray-700">بنبعتلك تقرير بسيط ومفهوم: صرفت كام وجالك كام عميل.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
+    <!-- (إضافة v2) قسم إزاي بنشتغل -->
     <section class="py-20 px-6 bg-purple-50">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
-                إزاي بنشتغل؟ 🎯
+                إزاي بنشتغل؟ (3 خطوات بس!) 🎯
             </h2>
-            
-            <div class="grid md:grid-cols-4 gap-6">
+            <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center">
                     <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">1</div>
-                    <h3 class="text-lg font-bold mb-2">اختار الباقة</h3>
-                    <p class="text-gray-700 text-sm">حدد الباقة اليومية المناسبة</p>
+                    <h3 class="text-xl font-bold mb-2">اختار الباقة</h3>
+                    <p class="text-gray-700 text-sm">حدد الباقة اليومية المناسبة لميزانيتك (349، 749، 999).</p>
                 </div>
-                
                 <div class="text-center">
                     <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">2</div>
-                    <h3 class="text-lg font-bold mb-2">نصمم الإعلان</h3>
-                    <p class="text-gray-700 text-sm">فريقنا يجهز التصميمات والنصوص</p>
+                    <h3 class="text-xl font-bold mb-2">بنحط الخطة</h3>
+                    <p class="text-gray-700 text-sm">بنتكلم معاك نفهم هدفك (رسايل، مبيعات) ونحدد الجمهور.</p>
                 </div>
-                
                 <div class="text-center">
                     <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">3</div>
-                    <h3 class="text-lg font-bold mb-2">نطلق الحملة</h3>
-                    <p class="text-gray-700 text-sm">نشغل الإعلان على الحسابات المستهدفة</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4">4</div>
-                    <h3 class="text-lg font-bold mb-2">تقارير يومية</h3>
-                    <p class="text-gray-700 text-sm">نبعتلك النتائج والإحصائيات</p>
+                    <h3 class="text-xl font-bold mb-2">ننطلق ونتابع</h3>
+                    <p class="text-gray-700 text-sm">بنصمم ونطلق الحملة، ونبعتلك تقرير يومي بالنتائج.</p>
                 </div>
             </div>
         </div>
@@ -301,24 +378,28 @@
                 باقات الإعلانات الممولة 💎
             </h2>
             <p class="text-center text-xl text-gray-600 mb-12">
-                كل الباقات شاملة الميزانية + التصميم + الإدارة + التقارير
+                السعر شامل كل حاجة (الميزانية + الإدارة + التصميم)
             </p>
             
             <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 
-                <!-- Package 1: Quick Ad -->
                 <div class="pricing-card bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
                     <h3 class="text-2xl font-bold mb-2 text-gray-800">إعلان سريع</h3>
-<!-- ... (محتوى الباقة زي ما هو) ... -->
+                    <p class="text-gray-600 mb-4">لتجربة سريعة</p>
                     
-                    <ul class="space-y-3 mb-8 text-sm">
+                    <div class="mb-6">
+                        <span class="text-5xl font-black text-purple-600">349</span>
+                        <span class="text-gray-600 text-xl">جنيه/يوم</span>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>شامل كل حاجة</strong> (ميزانية+إدارة+ضرائب)</span>
+                            <span><strong>~200 جنيه</strong> ميزانية إعلان</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>الميزانية الصافية: <strong>~150 جنيه</strong></span>
+                            <span>~149 جنيه (إدارة + تصميم)</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
@@ -326,52 +407,48 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>2 تصميم</strong> للإعلان</span>
+                            <span>تصميم إعلان واحد</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>كتابة نص الإعلان</span>
+                            <span>استهداف أساسي للجمهور</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>إطلاق وإدارة الحملة</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-green-500 font-bold">✓</span>
-                            <span>تقرير أداء يومي (مبسط)</span>
+                            <span>تقرير يومي (مبسط)</span>
                         </li>
                     </ul>
                     
-                    <p class="text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg">
-                        <strong>مناسب لـ:</strong> اختبار السوق وبدء الإعلانات
-                    </p>
-                    
-                    <!-- (تعديل v3) زرار البوب آب الأول -->
+                    <!-- (تعديل v4) زرار البوب آب (لينك باقة Mini) -->
                     <button 
                         data-popup-url="https://awanon.wuiltstore.com/ar/product/all/paid-ad-mini"
-                        data-popup-title="شراء باقة الإعلان السريع"
+                        data-popup-title="شراء إعلان سريع (349)"
                         class="open-popup-button block bg-purple-600 hover:bg-purple-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
-                        اشتري دلوقتي 💳
+                        اطلب دلوقتي 💳
                     </button>
                 </div>
                 
-                <!-- Package 2: Growth Ad (Most Popular) -->
                 <div class="pricing-card most-popular bg-white rounded-2xl shadow-2xl p-8 border-2 border-yellow-400 relative">
                     <div class="absolute -top-4 right-1/2 transform translate-x-1/2 bg-yellow-400 text-gray-900 px-6 py-2 rounded-full font-bold text-sm">
                         الأكثر شعبية ⭐
                     </div>
                     
                     <h3 class="text-2xl font-bold mb-2 text-gray-800">إعلان للنمو</h3>
-<!-- ... (محتوى الباقة زي ما هو) ... -->
+                    <p class="text-gray-600 mb-4">لنتائج أفضل</p>
                     
-                    <ul class="space-y-3 mb-8 text-sm">
+                    <div class="mb-6">
+                        <span class="text-5xl font-black text-purple-600">749</span>
+                        <span class="text-gray-600 text-xl">جنيه/يوم</span>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>شامل كل حاجة</strong></span>
+                            <span><strong>~500 جنيه</strong> ميزانية إعلان</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>الميزانية الصافية: <strong>~400 جنيه</strong></span>
+                            <span>~249 جنيه (إدارة + تصميم)</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
@@ -379,48 +456,44 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>3 تصميمات</strong> للإعلان</span>
+                            <span><strong>تصميم إعلان (نسختين A/B)</strong></span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>كتابة نص الإعلان</span>
+                            <span>استهداف متقدم للجمهور</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>إطلاق وإدارة الحملة</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-green-500 font-bold">✓</span>
-                            <span>تقرير أداء يومي (قياسي)</span>
+                            <span>تقرير يومي (مفصل)</span>
                         </li>
                     </ul>
                     
-                    <p class="text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg">
-                        <strong>مناسب لـ:</strong> زيادة الوصول واختبار تصميمات
-                    </p>
-                    
-                    <!-- (تعديل v3) زرار البوب آب الثاني -->
+                    <!-- (تعديل v4) زرار البوب آب (لينك باقة Medium) -->
                     <button 
                         data-popup-url="https://awanon.wuiltstore.com/ar/product/all/paid-ad-medium"
-                        data-popup-title="شراء باقة إعلان للنمو"
+                        data-popup-title="شراء إعلان للنمو (749)"
                         class="open-popup-button block bg-green-500 hover:bg-green-600 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full shadow-lg">
-                        اشتري دلوقتي 💳
+                        اطلب دلوقتي 💳
                     </button>
                 </div>
                 
-                <!-- Package 3: Big Ad -->
                 <div class="pricing-card bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
                     <h3 class="text-2xl font-bold mb-2 text-gray-800">إعلان كبير</h3>
-<!-- ... (محتوى الباقة زي ما هو) ... -->
+                    <p class="text-gray-600 mb-4">للنتائج القوية</p>
                     
-                    <ul class="space-y-3 mb-8 text-sm">
+                    <div class="mb-6">
+                        <span class="text-5xl font-black text-purple-600">999</span>
+                        <span class="text-gray-600 text-xl">جنيه/يوم</span>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>شامل كل حاجة</strong></span>
+                            <span><strong>~700 جنيه</strong> ميزانية إعلان</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>الميزانية الصافية: <strong>~700 جنيه</strong></span>
+                            <span>~299 جنيه (إدارة + تصميم)</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
@@ -428,141 +501,153 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>4 تصميمات + فيديو</strong></span>
+                            <span><strong>تصميم إعلان (3 نسخ)</strong></span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>كتابة نص الإعلان</span>
+                            <span><strong>استهداف + Retargeting</strong></span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="text-green-500 font-bold">✓</span>
-                            <span>إطلاق وإدارة الحملة</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-green-500 font-bold">✓</span>
-                            <span><strong>حملة إعادة استهداف (Retargeting)</strong></span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-green-500 font-bold">✓</span>
-                            <span>تقرير أداء يومي (مفصل)</span>
+                            <span>تقرير يومي (تحليلي)</span>
                         </li>
                     </ul>
                     
-                    <p class="text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg">
-                        <strong>مناسب لـ:</strong> تحقيق أقصى نتائج واستهداف دقيق
-                    </p>
-                    
-                    <!-- (تعديل v3) زرار البوب آب الثالث -->
+                    <!-- (تعديل v4) زرار البوب آب (لينك باقة Big) -->
                     <button 
                         data-popup-url="https://awanon.wuiltstore.com/ar/product/all/paid-ad-big"
-                        data-popup-title="شراء باقة الإعلان الكبير"
+                        data-popup-title="شراء إعلان كبير (999)"
                         class="open-popup-button block bg-purple-600 hover:bg-purple-700 text-white text-center px-6 py-3 rounded-lg font-bold transition w-full">
-                        اشتري دلوقتي 💳
+                        اطلب دلوقتي 💳
                     </button>
                 </div>
                 
             </div>
-
         </div>
     </section>
 
-    <!-- (إضافة v2) Testimonials -->
+    <!-- (إضافة v2) قسم آراء العملاء -->
     <section class="py-20 px-6 bg-gray-50">
         <div class="container mx-auto max-w-6xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
                 بشهادة عملائنا 💬
             </h2>
-            
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">
-                            👨‍💼
-                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">🛍️</div>
                         <div>
-                            <h4 class="font-bold">كريم عوض</h4>
-                            <p class="text-sm text-gray-600">صاحب متجر إلكتروني</p>
+                            <h4 class="font-bold">هاني رمزي</h4>
+                            <p class="text-sm text-gray-600">صاحب براند أونلاين</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">
-                        "مكنتش بعرف فلوسي بتروح فين في الإعلانات. نظام الباقات اليومية ده ريحني جداً، بقيت عارف ميزانيتي والتقارير بتجيلي كل يوم."
-                    </p>
+                    <p class="text-gray-700 leading-relaxed">"باقة (إعلان للنمو) فرقت معايا جداً. لأول مرة أشوف رسايل بتيجي من ناس عايزة تشتري فعلاً، مش مجرد لايكات وكومنتات."</p>
                 </div>
-                
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">
-                            👩‍💼
-                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">🍽️</div>
                         <div>
-                            <h4 class="font-bold">نهى السيد</h4>
-                            <p class="text-sm text-gray-600">عيادة تجميل</p>
+                            <h4 class="font-bold">شيماء أحمد</h4>
+                            <p class="text-sm text-gray-600">صاحبة مطعم</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">
-                        "التصميمات اللي عملوهالي فرقت جداً في شكل الإعلانات. وباقة (إعلان للنمو) جابتلي حجوزات أكتر بكتير من اللي كنت بعمله لوحدي."
-                    </p>
+                    <p class="text-gray-700 leading-relaxed">"السعر كان شفاف جداً ومفهوم، وده اللي شجعني. التقرير اليومي كان بيعرفني كل جنيه اتصرف فين بالظبط. خدمة ممتازة."</p>
                 </div>
-                
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">
-                            👨‍🍳
-                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">🏋️‍♂️</div>
                         <div>
-                            <h4 class="font-bold">شريف رمزي</h4>
-                            <p class="text-sm text-gray-600">صاحب مطعم</p>
+                            <h4 class="font-bold">كابتن/ رامي</h4>
+                            <p class="text-sm text-gray-600">مدرب جيم</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 leading-relaxed">
-                        "جربت معاهم باقة (إعلان كبير) مع الريتارجتينج. بصراحة النتيجة كانت ممتازة ومبيعات الأونلاين زادت الضعف."
-                    </p>
+                    <p class="text-gray-700 leading-relaxed">"جربت الإعلان السريع لمدة 3 أيام، والنتيجة كانت حلوة جداً مقارنة بالسعر. تصميم الإعلان كان احترافي والاستهداف جابلي عملاء جدد."</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- (إضافة v2) FAQ -->
+    <!-- (إضافة v2) قسم الأسئلة الشائعة -->
     <section class="py-20 px-6 bg-white">
         <div class="container mx-auto max-w-4xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
                 أسئلة شائعة ❓
             </h2>
-            
             <div class="space-y-4">
                 <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
-                    <summary class="font-bold text-lg text-gray-800">السعر ده شامل ميزانية الإعلان ولا الإدارة بس؟</summary>
+                    <summary class="font-bold text-lg text-gray-800">هل السعر ده شامل ميزانية الإعلان فعلاً؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
-                        السعر ده شامل **كل حاجة**: ميزانية الإعلان الصافية (اللي بتدفع لفيسبوك/انستجرام)، ورسوم الإدارة والتصميم، والضرايب. إنت بتدفع رقم واحد بس وإحنا بنهتم بالباقي.
+                        أيوة. ده أهم حاجة بتميزنا. السعر اللي بتدفعه (مثلاً 349 جنيه) متقسم جزئين: جزء بيروح ميزانية للإعلان (~200 جنيه)، وجزء مقابل خدمتنا في (الإدارة + التصميم + التقارير) (~149 جنيه). إنت بتدفع رقم واحد واضح وإحنا بنتولى كل حاجة.
                     </p>
                 </details>
-                
                 <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
-                    <summary class="font-bold text-lg text-gray-800">إيه هي (الميزانية الصافية)؟</summary>
+                    <summary class="font-bold text-lg text-gray-800">إيه هو الـ (A/B Test) في باقة النمو؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
-                        دي الفلوس اللي بتتصرف فعلاً على الإعلان بتاعك جوه فيسبوك أو انستجرام. إحنا بنوضحهالك بكل شفافية علشان تبقى عارف بالظبط كام من فلوسك بيتحول لإعلانات.
+                        ده معناه إننا بنعمل تصميمين أو نسختين من الإعلان (مثلاً واحد بصورة وواحد بفيديو، أو واحد برسايل مختلفة) ونشغلهم في نفس الوقت. بعد فترة قصيرة بنشوف أنهي نسخة جابت نتايج أحسن، وبنكمل بيها باقي الميزانية. ده بيضمن أفضل نتيجة ممكنة.
                     </p>
                 </details>
-                
                 <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
-                    <summary class="font-bold text-lg text-gray-800">إيه أقل مدة ممكن أشغل فيها الإعلان؟</summary>
+                    <summary class="font-bold text-lg text-gray-800">إيه هو الـ (Retargeting) في الباقة الكبيرة؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
-                        بننصح بإن أقل مدة لأي حملة إعلانية تكون من 5 لـ 7 أيام علشان نقدر نقيس النتايج صح ونعمل تحسينات. لكن النظام مرن وتقدر تبدأ باللي يناسبك.
-                    </p>
-                </details>
-
-                <details class="bg-gray-50 rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
-                    <summary class="font-bold text-lg text-gray-800">إيه هو (إعادة الاستهداف - Retargeting)؟</summary>
-                    <p class="mt-3 text-gray-700 leading-relaxed">
-                        ده معناه إننا بنعمل إعلانات مخصصة للناس اللي دخلت موقعك أو تفاعلت مع إعلاناتك قبل كده لكن مشتريتش. دي من أقوى الطرق لزيادة المبيعات لأننا بنكلم عميل مهتم أصلاً.
+                        ده معناه إننا بنعمل حملة إعلانية مخصصة للناس اللي دخلت موقعك أو صفحتك قبل كده بس مشترتش. بنرجع نظهرلهم الإعلان تاني ونفكرهم بالمنتج. ده بيزود نسبة البيع جداً لأن العميل ده مهتم أصلاً.
                     </p>
                 </details>
             </div>
         </div>
     </section>
 
+    <!-- (إضافة v2) شريط الفوتر الثابت (لوحة التحكم) -->
+    <div class="sticky-footer-bar">
+        <div class="container mx-auto max-w-5xl footer-content-grid">
+            
+            <!-- (تعديل v4) عمود الدفع (اليمين) -->
+            <div class="footer-action-col">
+                <!-- (تعديل v4) زرار البوب آب (اللينك العام للخدمة) -->
+                <button 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/daily-sponsored-ads"
+                    data-popup-title="شراء خدمة إعلان ممول"
+                    class="open-popup-button w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg shadow-lg transition">
+                    🚀 اشترك وادفع دلوقتي
+                </button>
+                <div class="payment-icons">
+                    <span><img src="https://placehold.co/20x15/png?text=V" alt="Visa" class="inline-block h-4"> فيزا</span>
+                    <span><img src="https://placehold.co/20x15/png?text=M" alt="Mastercard" class="inline-block h-4"> ماستركارد</span>
+                    <span><img src="https://placehold.co/20x15/png?text=M" alt="Meeza" class="inline-block h-4"> ميزة</span>
+                    <span><img src="https://placehold.co/15x15/png?text=I" alt="InstaPay" class="inline-block h-4"> انستا-باي</span>
+                    <span><img src="https://placehold.co/15x15/png?text=W" alt="Wallets" class="inline-block h-4"> محافظ</span>
+                </div>
+            </div>
 
-    <!-- (إضافة v2) البوب-آب (Popup/Modal) -->
+            <!-- (تعديل v4) عمود التواصل (الشمال) -->
+            <div class="footer-contact-col">
+                <!-- (تعديل v4) زرار البوب آب (اتصل بنا) -->
+                <button 
+                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us"
+                    data-popup-title="اتصل بنا"
+                    class="open-popup-button w-full md:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg font-bold text-lg transition">
+                    🤔 اتواصل معانا
+                </button>
+                <div class="footer-contact-links">
+                    <!-- (تعديل v4) لينك واتساب بالرقم الصح -->
+                    <a href="https://wa.me/201101234798" target="_blank" class="text-green-600 font-semibold hover:underline">
+                        <img src="https://placehold.co/20x20/25D366/ffffff/png?text=W" alt="WhatsApp" class="inline-block ml-1 h-5">
+                        واتساب
+                    </a>
+                    <span class="text-gray-400">|</span>
+                    <!-- (تعديل v4) زرار البوب آب (من نحن) -->
+                    <button 
+                        data-popup-url="https://awanon.wuiltstore.com/ar/page/about-us"
+                        data-popup-title="من نحن"
+                        class="open-popup-button text-blue-600 font-semibold hover:underline">
+                        من نحن؟
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- (إضافة v2) هيكل البوب-آب (Popup/Modal) -->
     <div id="popup-modal" class="popup-overlay">
         <div class="popup-content">
             <div class="popup-header">
@@ -579,68 +664,9 @@
     </div>
 
 
-    <!-- (تعديل v2) الفوتر الثابت (Sticky Footer) - لوحة التحكم -->
-    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 z-50 w-full bg-white/95 p-4 backdrop-blur-sm border-t border-gray-200 shadow-t-2xl">
-        <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4">
-            
-            <!-- === قسم الدفع (الأساسي) === -->
-            <div class="flex-1 w-full md:w-auto">
-                <!-- (تعديل v3) الزرار ده هيفتح بوب آب لصفحة الخدمة العامة -->
-                <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/daily-sponsored-ads" 
-                    data-popup-title="خدمة الإعلان الممول الشامل"
-                    class="open-popup-button w-full text-center px-6 py-3 bg-green-500 border-2 border-green-500 text-white rounded-lg font-bold shadow-lg transition hover:bg-green-600 text-lg">
-                    🚀 اشترك وادفع دلوقتي
-                </button>
-                <!-- طرق الدفع -->
-                <div class="text-center text-xs text-gray-500 mt-2">
-                    متاح: فيزا - ماستركارد - ميزة - فودافون كاش - انستا باي
-                </div>
-            </div>
-
-            <!-- === قسم التواصل (الثانوي) === -->
-            <div class="flex-1 w-full md:w-auto">
-                <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us" 
-                    data-popup-title="اتصل بنا"
-                    class="open-popup-button w-full text-center px-6 py-3 bg-gray-100 border-2 border-gray-300 text-gray-800 rounded-lg font-bold transition hover:bg-gray-200 text-lg">
-                    💬 اتواصل معانا
-                </button>
-                <!-- بيانات التواصل -->
-                <div class="text-center text-xs text-gray-500 mt-2">
-                    <a href="https://wa.me/201101234798" target="_blank" class="hover:text-black">واتساب: 01101234798</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             
-            // Fade in animation on scroll (from v1)
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
-
-            // Smooth scroll for anchor links (from v1)
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
-
             // --- (إضافة v2) كود البوب-آب (Popup) ---
             const popupModal = document.getElementById("popup-modal");
             const popupTitle = document.getElementById("popup-title");
@@ -652,27 +678,33 @@
             function openPopup(url, title) {
                 if (!popupModal) return;
                 
-                // التأكد من أن العنوان نص
-                popupTitle.textContent = title || "تحميل...";
+                // التأكد من أن اللينك HTTPS (ضروري للـ iframe)
+                let safeUrl = url;
+                if (!url.startsWith('https://') && !url.startsWith('http://')) {
+                    if(url.startsWith('/ar/')) {
+                        // بناء اللينك الكامل لمنصة ويليت
+                        safeUrl = 'https://awanon.wuiltstore.com' + url;
+                    } else {
+                        // لو لينك داخلي بسيط، نخليه نسبي
+                        safeUrl = url; 
+                    }
+                }
+
+                popupTitle.textContent = title;
                 popupIframe.src = "about:blank"; // إفراغ الـ iframe أولاً
-                popupLoader.style.display = "block"; // إظهار مؤشر التحميل
+                popupLoader.style.display = "block"; // إظهار التحميل
                 popupModal.classList.add("popup-visible");
                 
-                // تأخير بسيط قبل تحميل الـ URL لتجنب مشاكل الـ cache
-                setTimeout(() => {
-                    popupIframe.src = url; 
-                }, 50);
-
-                // إخفاء مؤشر التحميل عند اكتمال التحميل
                 popupIframe.onload = function() {
-                    popupLoader.style.display = "none"; 
+                    popupLoader.style.display = "none"; // إخفاء التحميل عند اكتمال الصفحة
                 };
+                popupIframe.src = safeUrl; // تحميل اللينك الآمن
             }
 
             function closePopup() {
                 if (!popupModal) return;
                 popupModal.classList.remove("popup-visible");
-                popupIframe.src = "about:blank"; // إفراغ الـ iframe عند الإغلاق
+                popupIframe.src = "about:blank"; // إيقاف تحميل الصفحة (مهم)
                 popupTitle.textContent = "بنحمّل الصفحة...";
             }
 
@@ -681,10 +713,10 @@
                     e.preventDefault();
                     const url = this.dataset.popupUrl;
                     const title = this.dataset.popupTitle;
-                    if (url) {
+                    if (url && title) {
                         openPopup(url, title);
                     } else {
-                        console.error("Popup URL not set for this button.");
+                        console.error('Popup button is missing data-popup-url or data-popup-title');
                     }
                 });
             });
@@ -700,10 +732,31 @@
                     }
                 });
             }
-            // --- نهاية كود البوب-آب ---
 
+
+            // --- كود الأنيميشن (Fade In) عند السكرول ---
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+
+            // --- كود التمرير الناعم (Smooth scroll) للينكات الداخلية ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
         });
     </script>
 </body>
 </html>
-
