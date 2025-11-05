@@ -11,18 +11,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
         body {
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
-            /* (تعديل v2) إضافة مساحة سفلية علشان الفوتر الجديد */
-            padding-bottom: 160px; /* للديسكتوب */
+            /* (تعديل v8) تم تعديل الـ padding ليكون أكثر دقة بناءً على ارتفاع الفوتر التقريبي */
+            padding-bottom: 220px; /* للموبايل (أقل من 768px) */
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             body {
-                /* (تعديل v2) مساحة أكبر للموبايل (لأن الفوتر أطول) */
-                padding-bottom: 220px; 
+                padding-bottom: 160px; /* للديسكتوب */
             }
         }
         
@@ -32,7 +32,6 @@
         
         .service-card {
             transition: all 0.3s ease;
-            /* (تعديل v4) تغيير المؤشر ليدل على أنه زرار */
             cursor: pointer; 
         }
         
@@ -52,7 +51,7 @@
             transform: translateY(0);
         }
 
-        /* --- (إضافة v2) ستايل الفوتر الثابت (Sticky Footer) --- */
+        /* --- ستايل الفوتر الثابت (Sticky Footer) --- */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -66,7 +65,6 @@
             transition: transform 0.3s ease-in-out;
         }
         
-        /* (تعديل v4) تصميم Mobile-First للفوتر */
         .footer-content-grid {
             display: grid;
             grid-template-columns: 1fr; /* عمود واحد في الموبايل */
@@ -102,23 +100,21 @@
             align-items: center;
         }
 
-        /* (تعديل v4) تطبيق التصميم على الشاشات الأكبر */
         @media (min-width: 768px) {
             .sticky-footer-bar {
                 padding: 1.5rem;
             }
             .footer-content-grid {
-                display: grid;
                 grid-template-columns: 1fr 1fr; /* عمودين في الديسكتوب */
                 align-items: center;
                 gap: 2rem;
             }
             .footer-action-col {
-                text-align: right; /* محاذاة لليمين */
+                text-align: right; 
             }
             .footer-contact-col {
-                text-align: right; /* محاذاة لليمين */
-                border-right: 1px solid #e5e7eb; /* خط فاصل */
+                text-align: right; 
+                border-right: 1px solid #e5e7eb; 
                 padding-right: 2rem;
             }
             .payment-icons {
@@ -129,95 +125,34 @@
             }
         }
 
-        /* --- (إضافة v2) ستايل البوب-آب (Popup/Modal) --- */
-        .popup-overlay {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 10000; /* أعلى z-index */
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        /* --- ستايل البوب-آب (Popup/Modal) --- */
+        /* (تعديل v9) --- زيادة الـ z-index وضمان العرض فوق كل شيء --- */
+        #popup-modal {
+            z-index: 99999 !important;
         }
-        .popup-overlay.popup-visible {
-            opacity: 1;
-            visibility: visible;
+
+        .popup-loader {
+            border: 4px solid #f3f3f3; 
+            border-top: 4px solid #0056b3; 
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto; 
+            display: none; 
         }
-        .popup-content {
-            background-color: white;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 800px; /* عرض أكبر للبوب آب */
-            height: 90vh; /* ارتفاع 90% من الشاشة */
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            transform: scale(0.95);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .popup-overlay.popup-visible .popup-content {
-            transform: scale(1);
-        }
-        .popup-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            background-color: #f9fafb;
-        }
-        .popup-header h3 {
-            font-size: 1.125rem; /* 18px */
-            font-weight: 700;
-            color: #1f2937;
-        }
-        .popup-close {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: #9ca3af;
-            cursor: pointer;
-            line-height: 1;
-            transition: color 0.2s ease;
-        }
-        .popup-close:hover {
-            color: #374151;
-        }
-        .popup-body {
-            flex-grow: 1;
-            overflow-y: auto;
-            position: relative;
-            -webkit-overflow-scrolling: touch; /* لتحسين السكرول على الموبايل */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .popup-iframe {
             width: 100%;
-            height: 100%;
+            height: 75vh; 
             border: none;
-        }
-        .popup-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #0056b3; /* لون أزرق */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
+            display: none; 
         }
     </style>
+
 </head>
 <body class="bg-gray-50">
     
@@ -234,20 +169,12 @@
                 <a href="#services" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition">
                     💳 شوف خدماتنا واطلب دلوقتي
                 </a>
-                <!-- (تعديل v4) زرار البوب آب (اللينك العام للباقة الشاملة) -->
-                <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/tswiq-package"
-                    data-popup-title="شراء الباقة الشاملة"
-                    class="open-popup-button bg-white hover:bg-gray-100 text-blue-700 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition">
-                    📱 سجل وادفع بعدين
-                </button>
             </div>
             <div class="flex justify-center">
-                <!-- (تعديل v4) زرار البوب آب (اتصل بنا) -->
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
                 <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us"
-                    data-popup-title="اتصل بنا"
-                    class="open-popup-button bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition">
+                    onclick="openModal('https://awanon.wuiltstore.com/ar/contact-us', 'اتصل بنا')"
+                    class="bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition">
                     🤔 محتاج مساعدة أو استشارة؟
                 </button>
             </div>
@@ -262,48 +189,48 @@
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- (تعديل v4) Service 1: Website - (لينك صفحة الهبوط) -->
-                <button data-popup-url="https://awanon.wuiltstore.com/ar/page/Websites-creation" data-popup-title="خدمة المواقع الإلكترونية" class="open-popup-button service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/Websites-creation', 'خدمة المواقع الإلكترونية')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">🌐</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">ويب سايت باشتراك شهري</h3>
                     <p class="text-gray-600 mb-4 leading-relaxed">امتلك موقع احترافي بأقل اشتراك شهري - من 349 جنيه</p>
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v4) Service 2: Ads - (لينك صفحة الهبوط) -->
-                <button data-popup-url="https://awanon.wuiltstore.com/ar/page/paid-ads" data-popup-title="خدمة الإعلانات الممولة" class="open-popup-button service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/paid-ads', 'خدمة الإعلانات الممولة')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">📢</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">إعلان ممول شامل</h3>
                     <p class="text-gray-600 mb-4 leading-relaxed">حملات إعلانية على فيسبوك وانستجرام - من 349 جنيه/يوم</p>
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v4) Service 3: Motion Graphics - (لينك صفحة الهبوط) -->
-                <button data-popup-url="https://awanon.wuiltstore.com/ar/page/Marketing-Videos" data-popup-title="خدمة الموشن جرافيك" class="open-popup-button service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/Marketing-Videos', 'خدمة الموشن جرافيك')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">🎬</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">فيديو موشن جرافيك</h3>
                     <p class="text-gray-600 mb-4 leading-relaxed">فيديوهات احترافية لإعلاناتك - من 349 جنيه</p>
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v4) Service 4: Logo Design - (لينك صفحة الهبوط) -->
-                <button data-popup-url="https://awanon.wuiltstore.com/ar/page/logos-visual-branding" data-popup-title="خدمة تصميم اللوجو" class="open-popup-button service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/logos-visual-branding', 'خدمة تصميم اللوجو')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">🎨</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">تصميم لوجو احترافي</h3>
                     <p class="text-gray-600 mb-4 leading-relaxed">شعار يعكس هوية شركتك - من 349 جنيه</p>
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v4) Service 5: Social Media - (لينك صفحة الهبوط) -->
-                <button data-popup-url="https://awanon.wuiltstore.com/ar/page/social-media-manag" data-popup-title="خدمة إدارة السوشيال ميديا" class="open-popup-button service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/social-media-manag', 'خدمة إدارة السوشيال ميديا')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">📱</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">إدارة سوشيال ميديا</h3>
                     <p class="text-gray-600 mb-4 leading-relaxed">إدارة صفحاتك بشكل احترافي - من 349 جنيه/أسبوع</p>
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v4) Service 6: All-in-One Package - (لينك صفحة الهبوط) -->
-                <button data-popup-url="https://awanon.wuiltstore.com/ar/page/Complete-Package" data-popup-title="الباقة الشاملة" class="open-popup-button service-card bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-xl shadow-lg p-8 hover:shadow-2xl block relative overflow-hidden text-right">
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/Complete-Package', 'الباقة الشاملة')" class="service-card bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-xl shadow-lg p-8 hover:shadow-2xl block relative overflow-hidden text-right">
                     <div class="absolute top-4 left-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-bold">
                         الأكثر توفيراً
                     </div>
@@ -317,14 +244,14 @@
         </div>
     </section>
 
-    <!-- (إضافة v2) قسم آراء العملاء -->
+    <!-- Testimonials Section -->
     <section class="py-20 px-6 bg-white">
         <div class="container mx-auto max-w-6xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
                 بشهادة عملائنا 💬
             </h2>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 rounded-xl shadow-md p-6">
+                <div class="bg-gray-50 rounded-xl shadow-md p-6 fade-in">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">👨‍💼</div>
                         <div>
@@ -334,7 +261,7 @@
                     </div>
                     <p class="text-gray-700 leading-relaxed">"موقعي بقى احترافي جداً والعملاء بقوا يثقوا فيّا أكتر. زادت المبيعات 40% في أول شهرين!"</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl shadow-md p-6">
+                <div class="bg-gray-50 rounded-xl shadow-md p-6 fade-in">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">👩‍💼</div>
                         <div>
@@ -344,7 +271,7 @@
                     </div>
                     <p class="text-gray-700 leading-relaxed">"السعر كان مناسب جداً والتسليم كان سريع. فريق محترم وبيرد على كل الأسئلة."</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl shadow-md p-6">
+                <div class="bg-gray-50 rounded-xl shadow-md p-6 fade-in">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl">👨‍🍳</div>
                         <div>
@@ -358,26 +285,26 @@
         </div>
     </section>
 
-    <!-- (إضافة v2) قسم الأسئلة الشائعة -->
+    <!-- FAQ Section -->
     <section class="py-20 px-6 bg-gray-50">
         <div class="container mx-auto max-w-4xl">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-gray-800">
                 أسئلة شائعة ❓
             </h2>
             <div class="space-y-4">
-                <details class="bg-white rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm">
+                <details class="bg-white rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm fade-in">
                     <summary class="font-bold text-lg text-gray-800">إزاي الأسعار دي أرخص من السوق؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
                         لأننا بنعتمد على نظام "الباقات الموحدة" واستخدام قوالب احترافية بنعدلها. ده بيقلل وقت الشغل علينا، فبنقدر نوفرلك سعر أقل بكتير من الشغل اللي بيبدأ من الصفر.
                     </p>
                 </details>
-                <details class="bg-white rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm">
+                <details class="bg-white rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm fade-in">
                     <summary class="font-bold text-lg text-gray-800">أنا مش عارف أنهي خدمة مناسبة ليا. أعمل إيه؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
                         ده العادي. دوس على زرار "اتواصل معانا" أو كلمنا على واتساب، وفريقنا هيفهم منك تفاصيل البيزنس بتاعك ويرشحلك أفضل باقة تبدأ بيها.
                     </p>
                 </details>
-                <details class="bg-white rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm">
+                <details class="bg-white rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition shadow-sm fade-in">
                     <summary class="font-bold text-lg text-gray-800">إيه طرق الدفع المتاحة؟</summary>
                     <p class="mt-3 text-gray-700 leading-relaxed">
                         كل حاجة متاحة: الدفع أونلاين بـ (فيزا، ماستركارد، ميزة) أو الدفع أوفلاين عن طريق (فودافون كاش، اتصالات كاش، أورانج كاش، أو انستا باي).
@@ -387,49 +314,44 @@
         </div>
     </section>
 
-    <!-- (إضافة v2) شريط الفوتر الثابت (لوحة التحكم) -->
+    <!-- شريط الفوتر الثابت (لوحة التحكم) -->
     <div class="sticky-footer-bar">
         <div class="container mx-auto max-w-5xl footer-content-grid">
             
-            <!-- (تعديل v4) عمود الدفع (اليمين) -->
             <div class="footer-action-col">
-                <!-- (تعديل v4) زرار البوب آب (اللينك العام للباقة الشاملة) -->
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
                 <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/product/all/tswiq-package"
-                    data-popup-title="شراء الباقة الشاملة"
-                    class="open-popup-button w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg shadow-lg transition">
+                    onclick="openModal('https://awanon.wuiltstore.com/ar/product/all/tswiq-package', 'شراء الباقة الشاملة')"
+                    class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg shadow-lg transition">
                     🚀 اطلب خدمة
                 </button>
                 <div class="payment-icons">
-                    <span><img src="https://placehold.co/20x15/png?text=V" alt="Visa" class="inline-block h-4"> فيزا</span>
-                    <span><img src="https://placehold.co/20x15/png?text=M" alt="Mastercard" class="inline-block h-4"> ماستركارد</span>
-                    <span><img src="https://placehold.co/20x15/png?text=M" alt="Meeza" class="inline-block h-4"> ميزة</span>
-                    <span><img src="https://placehold.co/15x15/png?text=I" alt="InstaPay" class="inline-block h-4"> انستا-باي</span>
-                    <span><img src="https://placehold.co/15x15/png?text=W" alt="Wallets" class="inline-block h-4"> محافظ</span>
+                    <!-- (تعديل v8) استخدام صور placeholder فعلية مؤقتاً لتحسين الشكل -->
+                    <span><img src="https://placehold.co/24x16/004A99/FFFFFF?text=VISA&font=roboto" alt="Visa" class="inline-block h-4"></span>
+                    <span><img src="https://placehold.co/24x16/EB001B/FFFFFF?text=MC&font=roboto" alt="Mastercard" class="inline-block h-4"></span>
+                    <span><img src="https://placehold.co/24x16/1464C1/FFFFFF?text=Meeza&font=roboto" alt="Meeza" class="inline-block h-4"></span>
+                    <span><img src="https://placehold.co/24x16/00A99D/FFFFFF?text=IP&font=roboto" alt="InstaPay" class="inline-block h-4"></span>
+                    <span><img src="https://placehold.co/24x16/FF6B00/FFFFFF?text=Cash&font=roboto" alt="Wallets" class="inline-block h-4"></span>
                 </div>
             </div>
 
-            <!-- (تعديل v4) عمود التواصل (الشمال) -->
             <div class="footer-contact-col">
-                <!-- (تعديل v4) زرار البوب آب (اتصل بنا) -->
+                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
                 <button 
-                    data-popup-url="https://awanon.wuiltstore.com/ar/contact-us"
-                    data-popup-title="اتصل بنا"
-                    class="open-popup-button w-full md:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg font-bold text-lg transition">
+                    onclick="openModal('https://awanon.wuiltstore.com/ar/contact-us', 'اتصل بنا')"
+                    class="w-full md:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg font-bold text-lg transition">
                     🤔 اتواصل معانا
                 </button>
                 <div class="footer-contact-links">
-                    <!-- (تعديل v4) لينك واتساب بالرقم الصح -->
-                    <a href="https://wa.me/201101234798" target="_blank" class="text-green-600 font-semibold hover:underline">
-                        <img src="https://placehold.co/20x20/25D366/ffffff/png?text=W" alt="WhatsApp" class="inline-block ml-1 h-5">
+                    <a href="https://wa.me/201101234798" target="_blank" class="text-green-600 font-semibold hover:underline flex items-center">
+                        <img src="https://placehold.co/20x20/25D366/FFFFFF?text=W&font=roboto" alt="WhatsApp" class="inline-block ml-1 h-5 rounded-full">
                         واتساب
                     </a>
                     <span class="text-gray-400">|</span>
-                    <!-- (تعديل v4) زرار البوب آب (من نحن) -->
+                    <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
                     <button 
-                        data-popup-url="https://awanon.wuiltstore.com/ar/page/about-us"
-                        data-popup-title="من نحن"
-                        class="open-popup-button text-blue-600 font-semibold hover:underline">
+                        onclick="openModal('https://awanon.wuiltstore.com/ar/page/about-us', 'من نحن')"
+                        class="text-blue-600 font-semibold hover:underline">
                         من نحن؟
                     </button>
                 </div>
@@ -438,114 +360,134 @@
         </div>
     </div>
     
-    <!-- (إضافة v2) هيكل البوب-آب (Popup/Modal) -->
-    <div id="popup-modal" class="popup-overlay">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h3 id="popup-title" class="text-gray-900">بنحمّل الصفحة...</h3>
-                <button id="popup-close" class="popup-close">&times;</button>
+    <!-- هيكل البوب-آب (Popup/Modal) -->
+    <!-- (تعديل v9) تم إزالة z-50 من الكلاسات الاعتماداً على الـ CSS فوق -->
+    <div id="popup-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity duration-300" onclick="handleOverlayClick(event)">
+        <!-- محتوى النافذة المنبثقة -->
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden transform transition-all duration-300 flex flex-col h-[90vh]" onclick="event.stopPropagation()">
+            
+            <!-- الرأس (Header) -->
+            <div class="flex justify-between items-center p-5 border-b border-gray-200 bg-gray-50 flex-shrink-0">
+                <h3 id="popup-title" class="text-xl font-semibold text-gray-900">بنحمّل الصفحة...</h3>
+                <button id="popup-close" class="text-gray-400 hover:text-gray-900 text-3xl leading-none font-semibold transition-colors duration-150 p-2 -ml-2 -mt-2 rounded-full hover:bg-gray-200">
+                    &times;
+                </button>
             </div>
-            <div class="popup-body">
+            
+            <!-- الجسم (Body) -->
+            <div class="popup-body p-1 md:p-2 flex-grow relative">
                 <!-- مؤشر التحميل -->
                 <div id="popup-loader" class="popup-loader"></div>
                 <!-- الـ iframe لتحميل المحتوى -->
-                <iframe id="popup-iframe" class="popup-iframe" src="about:blank" title="Popup Content"></iframe>
+                <iframe id="popup-iframe" class="popup-iframe rounded-lg" src="about:blank" title="محتوى النافذة المنبثقة"></iframe>
             </div>
+            
         </div>
     </div>
 
 
+    <!-- (تعديل v11) تم إرجاع السكريبت إلى نهاية الـ <body> بنفس طريقة المثال الناجح -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        // (تعديل v12) السكريبت في نهاية الصفحة ومن غير DOMContentLoaded
+        
+        // --- كود البوب-آب (Popup) ---
+        
+        // 1. المتغيرات
+        const modal = document.getElementById('popup-modal');
+        const iframe = document.getElementById('popup-iframe');
+        const loader = document.getElementById('popup-loader');
+        const titleElement = document.getElementById('popup-title');
+        
+        // 2. وظيفة فتح النافذة (يتم استدعاؤها الآن من onclick="" في الـ HTML)
+        function openModal(url, title = 'تحميل...') {
+            if (!modal || !iframe || !loader || !titleElement) {
+                console.error("عناصر البوب آب غير موجودة");
+                return;
+            }
             
-            // --- (إضافة v2) كود البوب-آب (Popup) ---
-            const popupModal = document.getElementById("popup-modal");
-            const popupTitle = document.getElementById("popup-title");
-            const popupIframe = document.getElementById("popup-iframe");
-            const popupLoader = document.getElementById("popup-loader");
-            const popupCloseBtn = document.getElementById("popup-close");
-            const openPopupButtons = document.querySelectorAll(".open-popup-button");
-
-            function openPopup(url, title) {
-                if (!popupModal) return;
-                
-                // التأكد من أن اللينك HTTPS (ضروري للـ iframe)
-                let safeUrl = url;
-                if (!url.startsWith('https://') && !url.startsWith('http://')) {
-                    if(url.startsWith('/ar/')) {
-                        // بناء اللينك الكامل لمنصة ويليت
-                        safeUrl = 'https://awanon.wuiltstore.com' + url;
-                    } else {
-                        // لو لينك داخلي بسيط، نخليه نسبي
-                        safeUrl = url; 
-                    }
-                }
-
-                popupTitle.textContent = title;
-                popupIframe.src = "about:blank"; // إفراغ الـ iframe أولاً
-                popupLoader.style.display = "block"; // إظهار التحميل
-                popupModal.classList.add("popup-visible");
-                
-                popupIframe.onload = function() {
-                    popupLoader.style.display = "none"; // إخفاء التحميل عند اكتمال الصفحة
-                };
-                popupIframe.src = safeUrl; // تحميل اللينك الآمن
+            titleElement.textContent = title;
+            loader.style.display = 'block';
+            iframe.style.display = 'none';
+            modal.classList.remove('hidden');
+            
+            // (تعديل v12) تم تبسيط اللوجيك ده لأننا ضامنين إن اللينكات كاملة
+            let safeUrl = url;
+            if (!url.startsWith('https://') && !url.startsWith('http://')) {
+                 // لوجيك احتياطي لو اللينك مش كامل (رغم إن كل اللينكات اللي فوق كاملة)
+                safeUrl = 'https://' + url; 
             }
+            
+            setTimeout(() => {
+                iframe.src = safeUrl; 
+            }, 300);
+        }
 
-            function closePopup() {
-                if (!popupModal) return;
-                popupModal.classList.remove("popup-visible");
-                popupIframe.src = "about:blank"; // إيقاف تحميل الصفحة (مهم)
-                popupTitle.textContent = "بنحمّل الصفحة...";
+        // 3. وظيفة إغلاق النافذة
+        function closeModal() {
+            if (!modal || !iframe || !titleElement) return;
+            
+            modal.classList.add('hidden');
+            iframe.src = 'about:blank'; // إيقاف التحميل
+            titleElement.textContent = 'بنحمّل الصفحة...';
+        }
+
+        // 4. معالج حدث تحميل الـ iframe
+        if (iframe) {
+            iframe.onload = function() {
+                if (loader) loader.style.display = 'none';
+                iframe.style.display = 'block';
+            };
+        }
+
+        // 5. معالج النقر على الخلفية (مخصص للـ onclick="" في الـ HTML)
+        window.handleOverlayClick = function(event) {
+            if (event.target === modal) {
+                closeModal();
             }
+        }
+        
+        // 6. ربط الأحداث (فقط للإغلاق والـ Escape)
 
-            openPopupButtons.forEach(button => {
-                button.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    const url = this.dataset.popupUrl;
-                    const title = this.dataset.popupTitle;
-                    if (url && title) {
-                        openPopup(url, title);
-                    } else {
-                        console.error('Popup button is missing data-popup-url or data-popup-title');
-                    }
-                });
+        // (تعديل v12) تم حذف كود "ربط كل أزرار الفتح" بالكامل
+        
+        // 6.2 ربط زرار الإغلاق
+        const closeButton = document.getElementById('popup-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                closeModal();
             });
-
-            if (popupCloseBtn) {
-                popupCloseBtn.addEventListener("click", closePopup);
+        }
+        
+        // 6.3 ربط مفتاح الـ Escape
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                closeModal();
             }
-            if (popupModal) {
-                // إغلاق البوب آب عند الضغط على الخلفية
-                popupModal.addEventListener("click", function(e) {
-                    if (e.target === popupModal) {
-                        closePopup();
-                    }
-                });
-            }
+        });
+        // --- نهاية كود البوب-آب ---
 
 
-            // --- كود الأنيميشن (Fade In) عند السكرول ---
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
+        // --- كود الأنيميشن (Fade In) عند السكرول ---
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
 
-            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+        document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 
-            // --- كود التمرير الناعم (Smooth scroll) للينكات الداخلية ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
+        // --- كود التمرير الناعم (Smooth scroll) للينكات الداخلية ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
         });
     </script>
