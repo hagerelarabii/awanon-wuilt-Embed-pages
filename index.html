@@ -16,13 +16,13 @@
         body {
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
-            /* (تعديل v8) تم تعديل الـ padding ليكون أكثر دقة بناءً على ارتفاع الفوتر التقريبي */
-            padding-bottom: 220px; /* للموبايل (أقل من 768px) */
+            /* (تعديل v11) المساحة السفلية بتتظبط بالـ JS دلوقتي */
+            padding-bottom: 220px; /* للموبايل كقيمة مبدئية */
         }
 
         @media (min-width: 768px) {
             body {
-                padding-bottom: 160px; /* للديسكتوب */
+                padding-bottom: 160px; /* للديسكتوب كقيمة مبدئية */
             }
         }
         
@@ -51,7 +51,7 @@
             transform: translateY(0);
         }
 
-        /* --- ستايل الفوتر الثابت (Sticky Footer) --- */
+        /* --- (تعديل v11) ستايل الفوتر الثابت (Sticky Footer) --- */
         .sticky-footer-bar {
             position: fixed;
             bottom: 0;
@@ -125,8 +125,7 @@
             }
         }
 
-        /* --- ستايل البوب-آب (Popup/Modal) --- */
-        /* (تعديل v9) --- زيادة الـ z-index وضمان العرض فوق كل شيء --- */
+        /* --- (تعديل v11) ستايل البوب-آب (Popup/Modal) الجديد --- */
         #popup-modal {
             z-index: 99999 !important;
         }
@@ -147,7 +146,7 @@
         }
         .popup-iframe {
             width: 100%;
-            height: 75vh; 
+            height: 100%; /* (تعديل v11) لملء البوب آب */
             border: none;
             display: none; 
         }
@@ -171,7 +170,7 @@
                 </a>
             </div>
             <div class="flex justify-center">
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button 
                     onclick="openModal('https://awanon.wuiltstore.com/ar/contact-us', 'اتصل بنا')"
                     class="bg-transparent border-2 border-white hover:bg-white/20 text-white px-8 py-3 rounded-lg font-bold text-base shadow-lg transition">
@@ -189,7 +188,7 @@
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/Websites-creation', 'خدمة المواقع الإلكترونية')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">🌐</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">ويب سايت باشتراك شهري</h3>
@@ -197,7 +196,7 @@
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/paid-ads', 'خدمة الإعلانات الممولة')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">📢</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">إعلان ممول شامل</h3>
@@ -205,7 +204,7 @@
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/Marketing-Videos', 'خدمة الموشن جرافيك')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">🎬</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">فيديو موشن جرافيك</h3>
@@ -213,7 +212,7 @@
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/logos-visual-branding', 'خدمة تصميم اللوجو')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">🎨</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">تصميم لوجو احترافي</h3>
@@ -221,7 +220,7 @@
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/social-media-manag', 'خدمة إدارة السوشيال ميديا')" class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl block text-right">
                     <div class="text-5xl mb-4">📱</div>
                     <h3 class="text-2xl font-bold mb-3 text-gray-800">إدارة سوشيال ميديا</h3>
@@ -229,7 +228,7 @@
                     <span class="text-blue-600 font-bold">اعرف التفاصيل ←</span>
                 </button>
 
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button onclick="openModal('https://awanon.wuiltstore.com/ar/page/Complete-Package', 'الباقة الشاملة')" class="service-card bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-xl shadow-lg p-8 hover:shadow-2xl block relative overflow-hidden text-right">
                     <div class="absolute top-4 left-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-bold">
                         الأكثر توفيراً
@@ -314,19 +313,18 @@
         </div>
     </section>
 
-    <!-- شريط الفوتر الثابت (لوحة التحكم) -->
-    <div class="sticky-footer-bar">
+    <!-- (تعديل v11) الفوتر الثابت (Sticky Footer) - مع إضافة ID -->
+    <div id="sticky-footer" class="sticky-footer-bar">
         <div class="container mx-auto max-w-5xl footer-content-grid">
             
             <div class="footer-action-col">
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button 
                     onclick="openModal('https://awanon.wuiltstore.com/ar/product/all/tswiq-package', 'شراء الباقة الشاملة')"
                     class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg shadow-lg transition">
                     🚀 اطلب خدمة
                 </button>
                 <div class="payment-icons">
-                    <!-- (تعديل v8) استخدام صور placeholder فعلية مؤقتاً لتحسين الشكل -->
                     <span><img src="https://placehold.co/24x16/004A99/FFFFFF?text=VISA&font=roboto" alt="Visa" class="inline-block h-4"></span>
                     <span><img src="https://placehold.co/24x16/EB001B/FFFFFF?text=MC&font=roboto" alt="Mastercard" class="inline-block h-4"></span>
                     <span><img src="https://placehold.co/24x16/1464C1/FFFFFF?text=Meeza&font=roboto" alt="Meeza" class="inline-block h-4"></span>
@@ -336,7 +334,7 @@
             </div>
 
             <div class="footer-contact-col">
-                <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                <!-- (تعديل v13) تم إضافة onclick="" -->
                 <button 
                     onclick="openModal('https://awanon.wuiltstore.com/ar/contact-us', 'اتصل بنا')"
                     class="w-full md:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-3 rounded-lg font-bold text-lg transition">
@@ -348,7 +346,7 @@
                         واتساب
                     </a>
                     <span class="text-gray-400">|</span>
-                    <!-- (تعديل v12) تم إضافة onclick="" وحذف "open-popup-button" -->
+                    <!-- (تعديل v13) تم إضافة onclick="" -->
                     <button 
                         onclick="openModal('https://awanon.wuiltstore.com/ar/page/about-us', 'من نحن')"
                         class="text-blue-600 font-semibold hover:underline">
@@ -360,11 +358,10 @@
         </div>
     </div>
     
-    <!-- هيكل البوب-آب (Popup/Modal) -->
-    <!-- (تعديل v9) تم إزالة z-50 من الكلاسات الاعتماداً على الـ CSS فوق -->
-    <div id="popup-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity duration-300" onclick="handleOverlayClick(event)">
+    <!-- (تعديل v11) هيكل البوب-آب (Popup/Modal) الجديد لـ Fullscreen -->
+    <div id="popup-modal" class="hidden fixed inset-0 z-[10000] bg-black bg-opacity-70 flex items-center justify-center transition-opacity duration-300" onclick="handleOverlayClick(event)">
         <!-- محتوى النافذة المنبثقة -->
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden transform transition-all duration-300 flex flex-col h-[90vh]" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-xl shadow-2xl w-full h-full mx-auto overflow-hidden transform transition-all duration-300 flex flex-col" onclick="event.stopPropagation()">
             
             <!-- الرأس (Header) -->
             <div class="flex justify-between items-center p-5 border-b border-gray-200 bg-gray-50 flex-shrink-0">
@@ -386,37 +383,41 @@
     </div>
 
 
-    <!-- (تعديل v11) تم إرجاع السكريبت إلى نهاية الـ <body> بنفس طريقة المثال الناجح -->
+    <!-- (تعديل v13) كود البوب-آب (Popup) الجديد بـ onclick و Fullscreen -->
     <script>
-        // (تعديل v12) السكريبت في نهاية الصفحة ومن غير DOMContentLoaded
-        
-        // --- كود البوب-آب (Popup) ---
-        
-        // 1. المتغيرات
+        // 1. المتغيرات (في النطاق العالمي علشان onclick يشوفها)
         const modal = document.getElementById('popup-modal');
         const iframe = document.getElementById('popup-iframe');
         const loader = document.getElementById('popup-loader');
         const titleElement = document.getElementById('popup-title');
-        
-        // 2. وظيفة فتح النافذة (يتم استدعاؤها الآن من onclick="" في الـ HTML)
+        const stickyFooter = document.getElementById('sticky-footer'); // <-- (v11) للتحكم في الفوتر
+        const closeButton = document.getElementById('popup-close');
+
+        // 2. وظيفة فتح النافذة (بتشتغل من onclick)
         function openModal(url, title = 'تحميل...') {
-            if (!modal || !iframe || !loader || !titleElement) {
-                console.error("عناصر البوب آب غير موجودة");
+            if (!modal || !iframe || !loader || !titleElement || !stickyFooter) {
+                console.error("عناصر البوب آب أو الفوتر غير موجودة");
                 return;
             }
             
             titleElement.textContent = title;
             loader.style.display = 'block';
             iframe.style.display = 'none';
+            
+            // (v11) إخفاء الفوتر
+            stickyFooter.style.display = 'none'; 
+            
             modal.classList.remove('hidden');
             
-            // (تعديل v12) تم تبسيط اللوجيك ده لأننا ضامنين إن اللينكات كاملة
+            // (v10) بناء اللينك الآمن (مهم جداً لـ Wuilt)
             let safeUrl = url;
             if (!url.startsWith('https://') && !url.startsWith('http://')) {
-                 // لوجيك احتياطي لو اللينك مش كامل (رغم إن كل اللينكات اللي فوق كاملة)
-                safeUrl = 'https://' + url; 
+                if (url.startsWith('/ar/')) {
+                    safeUrl = 'https://awanon.wuiltstore.com' + url;
+                }
             }
             
+            // استخدام setTimeout زي المثال الناجح
             setTimeout(() => {
                 iframe.src = safeUrl; 
             }, 300);
@@ -424,11 +425,14 @@
 
         // 3. وظيفة إغلاق النافذة
         function closeModal() {
-            if (!modal || !iframe || !titleElement) return;
+            if (!modal || !iframe || !titleElement || !stickyFooter) return;
             
             modal.classList.add('hidden');
             iframe.src = 'about:blank'; // إيقاف التحميل
             titleElement.textContent = 'بنحمّل الصفحة...';
+            
+            // (v11) إظهار الفوتر
+            stickyFooter.style.display = 'block'; 
         }
 
         // 4. معالج حدث تحميل الـ iframe
@@ -438,56 +442,51 @@
                 iframe.style.display = 'block';
             };
         }
-
-        // 5. معالج النقر على الخلفية (مخصص للـ onclick="" في الـ HTML)
-        window.handleOverlayClick = function(event) {
+        
+        // 5. معالج النقر على الخلفية (مربوط بـ onclick في الـ HTML)
+        function handleOverlayClick(event) {
             if (event.target === modal) {
                 closeModal();
             }
         }
         
-        // 6. ربط الأحداث (فقط للإغلاق والـ Escape)
-
-        // (تعديل v12) تم حذف كود "ربط كل أزرار الفتح" بالكامل
-        
-        // 6.2 ربط زرار الإغلاق
-        const closeButton = document.getElementById('popup-close');
+        // 6. ربط زر الإغلاق (x)
         if (closeButton) {
-            closeButton.addEventListener('click', function(event) {
-                event.preventDefault();
-                closeModal();
-            });
+           closeButton.addEventListener('click', closeModal);
         }
-        
-        // 6.3 ربط مفتاح الـ Escape
+
+        // 7. ربط مفتاح "Esc"
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
                 closeModal();
             }
         });
-        // --- نهاية كود البوب-آب ---
+        // --- نهاية كود البوب-آب v13 ---
 
 
-        // --- كود الأنيميشن (Fade In) عند السكرول ---
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+        // --- أكواد مساعدة (الأنيميشن والسكرول) ---
+        // (تعديل v13) تم تغليف الأكواد دي جوه DOMContentLoaded
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- كود الأنيميشن (Fade In) عند السكرول ---
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
-
-        // --- كود التمرير الناعم (Smooth scroll) للينكات الداخلية ---
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+            // --- كود التمرير الناعم (Smooth scroll) للينكات الداخلية ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
             });
         });
     </script>
